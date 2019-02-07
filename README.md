@@ -23,27 +23,7 @@ For more information on using this option please refer to Azure documentation: h
 ## A10’s ARM Template Information
 A10’s ARM templates listed here are for deploying vThunder ADC (Application Delivery Controller) & Threat Protection System 
 (TPS) in different design and configuration namely:
-
-- **Deploying vThunder ADC in Azure- Single NIC**<br>
-      - *BYOL* <br><a
-href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FF5Networks%2Ff5-azure-arm-templates%2Fv6.0.1.0%2Fsupported%2Fstandalone%2F1nic%2Fnew-stack%2Fbyol%2Fazuredeploy.json"> 
-<img src="http://azuredeploy.net/deploybutton.png"/></a><br>
-      - *10 Mbps* <br><a 
-href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FF5Networks%2Ff5-azure-arm-templates%2Fv6.0.1.0%2Fsupported%2Fstandalone%2F1nic%2Fnew-stack%2Fbyol%2Fazuredeploy.json"> 
-<img src="http://azuredeploy.net/deploybutton.png"/></a><br>
-      - *50 Mbps* <br><a 
-href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FF5Networks%2Ff5-azure-arm-templates%2Fv6.0.1.0%2Fsupported%2Fstandalone%2F1nic%2Fnew-stack%2Fbyol%2Fazuredeploy.json"> 
-<img src="http://azuredeploy.net/deploybutton.png"/></a><br>
-      - *100 Mbps* <br><a 
-href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FF5Networks%2Ff5-azure-arm-templates%2Fv6.0.1.0%2Fsupported%2Fstandalone%2F1nic%2Fnew-stack%2Fbyol%2Fazuredeploy.json"> 
-<img src="http://azuredeploy.net/deploybutton.png"/></a><br>
-      - *200 Mbps* <br><a
-href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FF5Networks%2Ff5-azure-arm-templates%2Fv6.0.1.0%2Fsupported%2Fstandalone%2F1nic%2Fnew-stack%2Fbyol%2Fazuredeploy.json">  
-<img src="http://azuredeploy.net/deploybutton.png"/></a><br>
-      - *500 Mbps* <br><a 
-href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FF5Networks%2Ff5-azure-arm-templates%2Fv6.0.1.0%2Fsupported%2Fstandalone%2F1nic%2Fnew-stack%2Fbyol%2Fazuredeploy.json"> 
-<img src="http://azuredeploy.net/deploybutton.png"/></a><br>
-      
+    
 
 - **Deploying vThunder ADC in Azure- 2 NICs (1 Management + 1 Data)**<br>
       - *BYOL* <br><a
@@ -86,24 +66,7 @@ href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.
 <img src="http://azuredeploy.net/deploybutton.png"/></a><br>
 
 - **Deploying vThunder ADC in Azure in High Availability mode (HA)**<br>
-      - *BYOL* <br><a
-href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FF5Networks%2Ff5-azure-arm-templates%2Fv6.0.1.0%2Fsupported%2Fstandalone%2F1nic%2Fnew-stack%2Fbyol%2Fazuredeploy.json"> 
-<img src="http://azuredeploy.net/deploybutton.png"/></a><br>
-      - *10 Mbps* <br><a 
-href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FF5Networks%2Ff5-azure-arm-templates%2Fv6.0.1.0%2Fsupported%2Fstandalone%2F1nic%2Fnew-stack%2Fbyol%2Fazuredeploy.json"> 
-<img src="http://azuredeploy.net/deploybutton.png"/></a><br>
-      - *50 Mbps* <br><a 
-href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FF5Networks%2Ff5-azure-arm-templates%2Fv6.0.1.0%2Fsupported%2Fstandalone%2F1nic%2Fnew-stack%2Fbyol%2Fazuredeploy.json"> 
-<img src="http://azuredeploy.net/deploybutton.png"/></a><br>
-      - *100 Mbps* <br><a 
-href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FF5Networks%2Ff5-azure-arm-templates%2Fv6.0.1.0%2Fsupported%2Fstandalone%2F1nic%2Fnew-stack%2Fbyol%2Fazuredeploy.json"> 
-<img src="http://azuredeploy.net/deploybutton.png"/></a><br>
-      - *200 Mbps* <br><a
-href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FF5Networks%2Ff5-azure-arm-templates%2Fv6.0.1.0%2Fsupported%2Fstandalone%2F1nic%2Fnew-stack%2Fbyol%2Fazuredeploy.json">  
-<img src="http://azuredeploy.net/deploybutton.png"/></a><br>
-      - *500 Mbps* <br><a 
-href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FF5Networks%2Ff5-azure-arm-templates%2Fv6.0.1.0%2Fsupported%2Fstandalone%2F1nic%2Fnew-stack%2Fbyol%2Fazuredeploy.json"> 
-<img src="http://azuredeploy.net/deploybutton.png"/></a><br>
+     
 
 - **Deploying vThunder TPS in Azure**<br>
       - *BYOL* <br><a
