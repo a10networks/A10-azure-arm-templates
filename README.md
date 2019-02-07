@@ -65,7 +65,7 @@ href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.
 href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FF5Networks%2Ff5-azure-arm-templates%2Fv6.0.1.0%2Fsupported%2Fstandalone%2F1nic%2Fnew-stack%2Fbyol%2Fazuredeploy.json"> 
 <img src="http://azuredeploy.net/deploybutton.png"/></a><br>
 
-- **Deploying vThunder ADC in Azure in High Availability mode (HA)**<br>
+- **Deploying vThunder ADC in Azure in High Availability mode (HA)** *In-Progress* <br>
      
 
 - **Deploying vThunder TPS in Azure**<br>
