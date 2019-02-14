@@ -26,13 +26,13 @@ A10’s ARM templates listed here are for deploying vThunder ADC (Application De
     
 
 - **Deploying vThunder ADC in Azure- 2 NICs (1 Management + 1 Data)**<br>
-      - *BYOL*<br>
+      - *BYOL(Bring Your Own License)*<br>
       - *500 Mbps*<br>
 - **Deploying vThunder ADC in Azure- 3 NICs (1 Management + 2 Data)**<br>
-      - *BYOL*<br>
+      - *BYOL(Bring Your Own License)*<br>
       - *500 Mbps*<br>
 - **Deploying vThunder ADC in Azure in High Availability mode (HA)** *In-Progress* <br>
 - **Deploying vThunder TPS in Azure**<br>
-      - *BYOL*
+      - *BYOL(Bring Your Own License)*
 
 
