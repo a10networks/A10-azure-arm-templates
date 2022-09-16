@@ -108,7 +108,7 @@
 			"kind":"Storage",
             "properties": {
                 "accountType": "[variables('storageAccountType')]"
-            },
+            }
         },
         {
             "type": "Microsoft.Network/virtualNetworks",
@@ -220,7 +220,7 @@
                         "publisher": "[variables('imagePublisher')]",
                         "offer": "[variables('imageOffer')]",
                         "sku": "[parameters('vThunderImage')]",
-                        "version": "latest",
+                        "version": "latest"
                    },
 					"osDisk": {
                         "osType": "Linux",
@@ -228,7 +228,7 @@
                         "createOption": "FromImage",
                         "caching": "ReadWrite",
                         "managedDisk": {
-                            "storageAccountType": null,
+                            "storageAccountType": null
                         },
                         "diskSizeGB": 30
                     },
@@ -264,13 +264,13 @@
                         "enabled": true,
                         "storageUri": "[concat('http://', variables('storageAccountName'), '.blob.core.windows.net')]"
                     }
-                },       
+                }     
       		},
 			"dependsOn": [
                 "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
                 "[concat('Microsoft.Network/networkInterfaces/', variables('nic1Name'))]",
                 "[concat('Microsoft.Network/networkInterfaces/', variables('nic2Name'))]"
-            ],
+            ]
 		}
     ],
     "outputs": {
