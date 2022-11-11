@@ -1,0 +1,102 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUsername": {
+      "value": "vth-user"
+    },
+    "adminPassword": {
+      "value": "vth-Password"
+    },
+    "storageAccountName": {
+      "value": "vthunderstorage"
+    },
+    "virtualNetworkName": {
+      "value": "vth-vnet"
+    },
+    "dnsLabelPrefix_vthunder11": {
+      "value": "vth-inst1-prefix1"
+    },
+    "dnsLabelPrefix_vthunder21": {
+      "value": "vth-inst2-prefix1"
+    },
+    "vmName_vthunder1": {
+      "value": "vth-inst1"
+    },
+    "vmName_vthunder2": {
+      "value": "vth-inst2"
+    },
+    "vthunderSize": {
+      "value": "Standard_B4ms"
+    },
+    "vThunderImage": {
+      "value":"vthunder_520_byol"
+      },
+    "publisherName": {
+      "value": "a10networks"
+    },
+    "productName": {
+      "value": "a10-vthunder-adc-520-for-microsoft-azure"
+    },
+    "nic1Name_vthunder1": {
+      "value": "vth-inst1-mgmt-nic1"
+    },
+    "nic2Name_vthunder1": {
+      "value": "vth-inst1-data-nic2"
+    },
+    "nic3Name_vthunder1": {
+      "value": "vth-inst1-data-nic3"
+    },
+    "nic1Name_vthunder2": {
+      "value": "vth-inst2-mgmt-nic1"
+    },
+    "nic2Name_vthunder2": {
+      "value": "vth-inst2-data-nic2"
+    },
+    "nic3Name_vthunder2": {
+      "value": "vth-inst2-data-nic3"
+    },
+    "addressPrefixValue": {
+      "value": "10.0.0.0/16"
+    },
+    "mgmtIntfPrivatePrefix_vthunder1": {
+      "value": "10.0.1.0/24"
+    },
+    "eth1PrivatePrefix_vthunder1": {
+      "value": "10.0.2.0/24"
+    },
+    "eth2PrivatePrefix_vthunder1": {
+      "value": "10.0.3.0/24"
+    },
+    "mgmtIntfPrivateAddress_vthunder1": {
+      "value": "10.0.1.35"
+    },
+    "eth1PrivateAddress_vthunder1": {
+      "value": "10.0.2.35"
+    },
+    "eth2PrivateAddress_vthunder1": {
+      "value": "10.0.3.35"
+    },
+    "mgmtIntfPrivateAddress_vthunder2": {
+      "value": "10.0.1.36"
+    },
+    "eth1PrivateAddress_vthunder2": {
+      "value": "10.0.2.36"
+    },
+    "eth2PrivateAddress_vthunder2": {
+      "value": "10.0.3.36"
+    },
+    "publicIPAddressName_vthunder1_mgmt": {
+      "value": "vth-inst1-mgmt-nic1-ip"
+    },
+    "publicIPAddressName_vthunder2_mgmt": {
+      "value": "vth-inst2-mgmt-nic1-ip"
+    },
+    "networkSecurityGroupName_vthunder1": {
+      "value": "vth-inst1-nsg"
+    },
+    "networkSecurityGroupName_vthunder2": {
+      "value": "vth-inst2-nsg"
+    }
+ }
+}
