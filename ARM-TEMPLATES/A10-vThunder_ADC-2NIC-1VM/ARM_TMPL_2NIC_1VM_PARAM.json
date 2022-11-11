@@ -1,0 +1,66 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUsername": {
+      "value": "vth-user"
+    },
+    "adminPassword": {
+      "value": "vth-Password"
+    },
+    "storageAccountName": {
+      "value": "vthunderstorage"
+    },
+    "virtualNetworkName": {
+      "value": "vth-vnet"
+    },
+    "dnsLabelPrefix": {
+      "value": "vth-inst1"
+    },
+    "vthunderName": {
+      "value": "vth-inst1"
+    },
+    "vthunderSize": {
+      "value": "Standard_DS2_v2"
+    },
+    "vThunderImage": {
+      "value":"vthunder_520_byol"
+    },
+  "publisherName": {
+    "value": "a10networks"
+  },
+  "productName": {
+    "value": "a10-vthunder-adc-520-for-microsoft-azure"
+  },
+  "nic1Name": {
+    "value": "vth-inst1-mgmt-nic1"
+  },
+  "nic2Name": {
+    "value": "vth-inst1-data-nic2"
+  },
+  "addressPrefixValue": {
+    "value": "10.0.0.0/16"
+  },
+  "mgmtIntfPrivatePrefix": {
+    "value": "10.0.1.0/24"
+  },
+  "mgmtIntfPrivateAddress": {
+    "value": "10.0.1.47"
+  },
+  "eth1PrivatePrefix": {
+    "value": "10.0.2.0/24"
+  },
+  "eth1PrivateAddress": {
+    "value": "10.0.2.47"
+  },
+  "publicIPAddressName": {
+    "value": "vth-vm-ip"
+  },
+  "networkSecurityGroupName": {
+    "value": "vth-nsg1"
+  },
+  "authenticationType": {
+      "value": "password"
+  }
+ }
+}

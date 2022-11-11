@@ -1,0 +1,93 @@
+{
+  "parameters": {
+      "slbServerHostOrDomain": {
+        "server-name": "s1",
+        "host": "10.0.2.8",
+        "metadata": {
+          "description": "SLB server host/fqdn-name. To use domain name replace host with fqdn-name and ip address with domain name"
+        }
+      },
+      "slbServerPortList": {
+        "value": [
+          {
+            "port-number": 53,
+            "protocol": "udp"
+          },
+          {
+            "port-number": 80,
+            "protocol": "tcp"
+          },
+          {
+            "port-number": 443,
+            "protocol": "tcp"
+          }
+        ]
+      },
+      "serviceGroupList": {
+        "value": [
+            {
+              "name":"sg443",
+              "protocol":"tcp",
+              "member-list": [
+                {
+                  "name":"s1",
+                  "port":443
+                }
+              ]
+            },
+            {
+              "name":"sg53",
+              "protocol":"udp",
+              "member-list": [
+                {
+                  "name":"s1",
+                  "port":53
+                }
+              ]
+            },
+              {
+              "name":"sg80",
+              "protocol":"tcp",
+              "member-list": [
+                {
+                  "name":"s1",
+                  "port":80
+                }
+              ]
+            }
+          ]
+      },
+      "virtualServerList": {
+        "virtual-server-name": "vs1",
+        "metadata": {
+          "description": "virtual server is using ethernet 1 ip address"
+        },
+        "value": [
+          {
+            "port-number":53,
+            "protocol":"udp",
+            "auto":1,
+            "service-group":"sg53"
+          },
+          {
+            "port-number":80,
+            "protocol":"http",
+            "auto":1,
+            "service-group":"sg80"
+          },
+          {
+            "port-number":443,
+            "protocol":"https",
+            "auto":1,
+            "service-group":"sg443"
+          }
+        ]
+    },
+      "sslConfig": {
+          "requestTimeOut": 40,
+          "Path": "<absolute path of certificate>",
+          "File": "<name of the certificate file>",
+          "CertificationType": "pem"
+        }
+  }
+}
