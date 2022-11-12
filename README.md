@@ -23,5 +23,5 @@ For more information on using this option please refer to Azure documentation: h
 ## A10’s ARM Template Information
 A10’s ARM templates listed here are for deploying vThunder ADC (Application Delivery Controller) in different design and configuration namely:
 
-- **vThunder configuration and different flavour of ARM templates can be found under ./POWERSHELL-TEMPLATES.
-- **vThunder configuration and different flavour Powershell templates can be found under ./ARM-TEMPLATES.
+- ARM templates can be found under ./POWERSHELL-TEMPLATES.
+- Powershell templates can be found under ./ARM-TEMPLATES.
