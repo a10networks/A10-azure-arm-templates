@@ -1,0 +1,13 @@
+{
+  "parameters": {
+    "user_name": {
+      "value": "<user_name>"
+    },
+    "user_password": {
+      "value": "<user_password>"
+    },
+    "entitlement_token": {
+      "value": "<license_entitlement_token>"
+    }
+  }
+}
