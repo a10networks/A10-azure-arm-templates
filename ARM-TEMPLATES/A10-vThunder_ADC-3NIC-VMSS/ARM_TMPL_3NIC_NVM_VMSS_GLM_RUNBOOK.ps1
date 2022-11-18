@@ -21,6 +21,9 @@ param (
 $glmData = Get-AutomationVariable -Name glmParam
 $glmParamData = $glmData | ConvertFrom-Json
 
+$vThUsername = Get-AutomationVariable -Name vThUsername
+$vThPassword = Get-AutomationVariable -Name vThPassword
+
 if ($null -eq $glmParamData) {
     Write-Error "GLM Param data is missing." -ErrorAction Stop
 }
@@ -63,8 +66,8 @@ function GetAuthToken {
     # AXAPI Auth url json body
     $body = "{
     `n    `"credentials`": {
-    `n        `"username`": `"admin`",
-    `n        `"password`": `"a10`"
+    `n        `"username`": `"$vThUsername`",
+    `n        `"password`": `"$vThPassword`"
     `n    }
     `n}"
     # Invoke Auth url

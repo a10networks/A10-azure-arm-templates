@@ -1,4 +1,4 @@
-# Deployment options for A10's Azure ARM Templates
+# A10 Networks Azure Resource Manager (ARM) Templates Release v1.0.0
 Azure ARM templates can be deployed through the Azure Command lines (CLI).
 
 - **Azure CLI**<br>
@@ -57,3 +57,6 @@ in different design and configuration namely:
       - *SSL (SSL Certification)*<br>
       - *Log Analysis using Azure Log Analytics integration*<br>
       - *Azure Application Insight integration*<br>
+	  
+For more detailed documentation please refer offline documentation within repository or online documentation :
+https://documentation.a10networks.com/IaC/ARM_Powershell/index.html

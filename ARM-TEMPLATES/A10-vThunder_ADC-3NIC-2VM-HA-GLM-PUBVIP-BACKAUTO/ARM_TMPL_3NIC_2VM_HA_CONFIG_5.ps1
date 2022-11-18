@@ -351,7 +351,7 @@ function PeerGroupConfiguration {
     $Headers.Add("Content-Type", "application/json")
 
     # VM1 data1 interface name
-    $vm1InterfaceName = $ParamData.parameters.nic2Name_vm1.value
+    $vm1InterfaceName = $ParamData.parameters.nic2Name_vthunder1.value
 
     # Get Network Interface IP Address
     $vm1Name = $ParamData.parameters.$vm1Name.value
@@ -359,7 +359,7 @@ function PeerGroupConfiguration {
     $vm1Interfaces = $vm1Info.NetworkProfile.NetworkInterfaces.Id
 
     # VM2 data2 interface name
-    $vm2InterfaceName = $ParamData.parameters.nic2Name_vm2.value
+    $vm2InterfaceName = $ParamData.parameters.nic2Name_vthunder2.value
 
     # Get Network Interface IP Address
     $vm2Name = $ParamData.parameters.$vm2Name.value

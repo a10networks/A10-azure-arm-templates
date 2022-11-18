@@ -144,8 +144,9 @@
         "location": "[resourceGroup().location]",
         "storageAccountName": "[parameters('storageAccountName')]",
         "storageAccountType": "Standard_GRS",
-        "imagePublisher": "a10networks",
-        "imageOffer": "a10-vthunder-adc-520-for-microsoft-azure",
+        "imagePublisher": "[parameters('publisherName')]",
+        "imageOffer": "[parameters('vThunderImage')]",
+        "vThunderImage": "[parameters('productName')]",
         "vnetName": "[parameters('virtualNetworkName')]",
         "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]",
         "addressPrefix": "[parameters('addressPrefixValue')]",
@@ -404,8 +405,8 @@
                 },
                 "storageProfile": {
                     "imageReference": {
-                        "publisher": "[variables('imagePublisher')]",
-                        "offer": "[variables('imageOffer')]",
+                        "publisher": "[parameters('publisherName')]",
+                        "offer": "[parameters('productName')]",
                         "sku": "[parameters('vThunderImage')]",
                         "version": "latest"
                     },

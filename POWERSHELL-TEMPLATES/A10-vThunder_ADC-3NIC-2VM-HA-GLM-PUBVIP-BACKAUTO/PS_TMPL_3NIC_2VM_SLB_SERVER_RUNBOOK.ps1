@@ -2,6 +2,8 @@
 $appId = Get-AutomationVariable -Name appId
 $secret = Get-AutomationVariable -Name clientSecret
 $tenantId = Get-AutomationVariable -Name tenantId
+$vThUsername = Get-AutomationVariable -Name vThUsername
+$vThPassword = Get-AutomationVariable -Name vThPassword
 
 try {
     $SecureStringPwd = $secret | ConvertTo-SecureString -AsPlainText -Force
@@ -133,8 +135,8 @@ function Get-AuthToken {
     # AXAPI Auth url json body
     $Body = "{
     `n    `"credentials`": {
-    `n        `"username`": `"admin`",
-    `n        `"password`": `"a10`"
+    `n        `"username`": `"$vThUsername`",
+    `n        `"password`": `"$vThPassword`"
     `n    }
     `n}"
     try {

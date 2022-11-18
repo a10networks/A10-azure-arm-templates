@@ -758,8 +758,8 @@
                     },
                 "storageProfile": {
                     "imageReference": {
-                        "publisher": "[variables('imagePublisher')]",
-                        "offer": "[variables('imageOffer')]",
+                        "publisher": "[parameters('publisherName')]",
+                        "offer": "[parameters('productName')]",
                         "sku": "[parameters('vThunderImage')]",
                         "version": "latest"
                         },
@@ -837,8 +837,8 @@
                 },
                 "storageProfile": {
                     "imageReference": {
-                        "publisher": "[variables('imagePublisher')]",
-                        "offer": "[variables('imageOffer')]",
+                        "publisher": "[parameters('publisherName')]",
+                        "offer": "[parameters('productName')]",
                         "sku": "[parameters('vThunderImage')]",
                         "version": "latest"
                     },

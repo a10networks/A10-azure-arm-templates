@@ -24,13 +24,13 @@
       "value": "Standard_DS2_v2"
     },
     "vThunderImage": {
-      "value":"vthunder_520_byol"
+      "value":"vthunder-adc-521-byol"
     },
   "publisherName": {
     "value": "a10networks"
   },
   "productName": {
-    "value": "a10-vthunder-adc-520-for-microsoft-azure"
+    "value": "a10-vthunder-adc-521"
   },
   "nic1Name": {
     "value": "vth-inst1-mgmt-nic1"

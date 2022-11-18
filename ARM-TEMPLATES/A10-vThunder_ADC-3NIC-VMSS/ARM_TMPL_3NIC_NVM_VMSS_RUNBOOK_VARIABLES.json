@@ -88,5 +88,7 @@
   "vThunderIP": {},
   "vCPUUsage": {},
   "clientSecret": "9-xxx~jIxxxEVyxxxxHNxxxOwv_xxxxZLxxxTM",
-  "agentPrivateIP": "10.0.1.4"
+  "agentPrivateIP": "10.0.1.4",
+  "vThUsername": "admin",
+  "vThPassword": "a10"
 }

@@ -21,6 +21,8 @@ param (
 
 $azureAutoScaleResources = Get-AutomationVariable -Name azureAutoScaleResources
 $azureAutoScaleResources = $azureAutoScaleResources | ConvertFrom-Json
+$vThUsername = Get-AutomationVariable -Name vThUsername
+$vThPassword = Get-AutomationVariable -Name vThPassword
 
 if ($null -eq $azureAutoScaleResources) {
     Write-Error "azureAutoScaleResources data is missing." -ErrorAction Stop
@@ -107,8 +109,8 @@ function Get-AuthToken {
     # AXAPI Auth url json body
     $Body = "{
     `n    `"credentials`": {
-    `n        `"username`": `"admin`",
-    `n        `"password`": `"a10`"
+    `n        `"username`": `"$vThUsername`",
+    `n        `"password`": `"$vThPassword`"
     `n    }
     `n}"
     # Invoke Auth url

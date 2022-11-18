@@ -28,6 +28,8 @@ $automationAccountName = $paramData.azureAutoScaleResources.automationAccountNam
 $location = $paramData.azureAutoScaleResources.location
 $vCPUUsage = $paramData.vCPUUsage
 $agentPrivateIP = $paramData.agentPrivateIP
+$vThUsername = $paramData.vThUsername
+$vThPassword = $paramData.vThPassword
 
 # Create automation account
 New-AzAutomationAccount -Name $automationAccountName -Location $location -ResourceGroupName $resourceGroupName
@@ -50,3 +52,7 @@ New-AzAutomationVariable -AutomationAccountName $automationAccountName -Name "cl
 New-AzAutomationVariable -AutomationAccountName $automationAccountName -Name "vCPUUsage" -Encrypted $False -Value $vCPUUsage -ResourceGroupName $resourceGroupName
 
 New-AzAutomationVariable -AutomationAccountName $automationAccountName -Name "agentPrivateIP" -Encrypted $False -Value $agentPrivateIP -ResourceGroupName $resourceGroupName
+
+New-AzAutomationVariable -AutomationAccountName $automationAccountName -Name "vThUsername" -Encrypted $False -Value $vThUsername -ResourceGroupName $resourceGroupName
+
+New-AzAutomationVariable -AutomationAccountName $automationAccountName -Name "vThPassword" -Encrypted $True -Value $vThPassword -ResourceGroupName $resourceGroupName

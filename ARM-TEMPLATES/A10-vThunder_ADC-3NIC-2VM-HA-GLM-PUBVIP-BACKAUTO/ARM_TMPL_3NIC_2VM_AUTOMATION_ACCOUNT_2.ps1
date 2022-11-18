@@ -26,6 +26,8 @@ $vmssName = $paramData.vmssName
 $mgmtInterface1 = $paramData.mgmtInterface1
 $mgmtInterface2 = $paramData.mgmtInterface2
 $slbParam = $paramData.portList  | ConvertTo-Json -Depth 3
+$vThUsername = $paramData.vThUsername
+$vThPassword = $paramData.vThPassword
 
 # Create automation account
 New-AzAutomationAccount -Name $automationAccountName -Location $location -ResourceGroupName $resourceGroupName
@@ -46,3 +48,7 @@ New-AzAutomationVariable -AutomationAccountName $automationAccountName -Name "mg
 New-AzAutomationVariable -AutomationAccountName $automationAccountName -Name "mgmtInterface2" -Encrypted $False -Value $mgmtInterface2 -ResourceGroupName $resourceGroupName
 
 New-AzAutomationVariable -AutomationAccountName $automationAccountName -Name "portList" -Encrypted $False -Value $slbParam -ResourceGroupName $resourceGroupName
+
+New-AzAutomationVariable -AutomationAccountName $automationAccountName -Name "vThUsername" -Encrypted $False -Value $vThUsername -ResourceGroupName $resourceGroupName
+
+New-AzAutomationVariable -AutomationAccountName $automationAccountName -Name "vThPassword" -Encrypted $True -Value $vThPassword -ResourceGroupName $resourceGroupName
