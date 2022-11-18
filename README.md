@@ -1,8 +1,8 @@
-# A10 Networks Azure Resource Manager (ARM) Templates
+# A10 Networks Azure Resource Manager (ARM/POWERSHELL) Templates Release v1.0.0
 Welcome to GitHub repository for A10’s ARM templates for Azure cloud. This repository hosts templates for single-click 
 deployment of A10’s vThunder on Azure cloud. 
 
-## What is Azure Resource (ARM) Template?
+## What is Azure Resource (ARM/POWERSHELL) Template?
 ARM template simplifies provisioning and management on Azure. You can create templates for the service or application 
 architectures you want and have Azure Resource Manager use those templates for quick and reliable provisioning of the 
 services or applications (called “stacks”). You can also easily update or replicate the stacks as needed.This collection 
@@ -25,3 +25,6 @@ A10’s ARM templates listed here are for deploying vThunder ADC (Application De
 
 - Powershell templates can be found under ./POWERSHELL-TEMPLATES.
 - ARM templates can be found under ./ARM-TEMPLATES.
+
+For more detailed documentation please refer offline documentation within repository or online documentation :
+https://documentation.a10networks.com/IaC/ARM_Powershell/index.html

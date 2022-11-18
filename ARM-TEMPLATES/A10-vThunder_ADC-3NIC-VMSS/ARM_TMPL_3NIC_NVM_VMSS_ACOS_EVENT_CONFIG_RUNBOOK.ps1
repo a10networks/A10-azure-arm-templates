@@ -39,6 +39,9 @@ $secureStringPwd = $secret | ConvertTo-SecureString -AsPlainText -Force
 $pscredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $appId, $secureStringPwd
 Connect-AzAccount -ServicePrincipal -Credential $pscredential -Tenant $tenantId
 
+$vThUsername = Get-AutomationVariable -Name vThUsername
+$vThPassword = Get-AutomationVariable -Name vThPassword
+
 function GetAuthToken {
     <#
         .PARAMETER BaseUrl
@@ -60,8 +63,8 @@ function GetAuthToken {
     # AXAPI Auth url json body
     $body = "{
     `n    `"credentials`": {
-    `n        `"username`": `"admin`",
-    `n        `"password`": `"a10`"
+    `n        `"username`": `"$vThUsername`",
+    `n        `"password`": `"$vThPassword`"
     `n    }
     `n}"
     # Invoke Auth url

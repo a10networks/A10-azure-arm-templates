@@ -18,13 +18,13 @@
             "value": "vthunder"
         },
         "vThunderImage":{
-            "value": "vthunder_520_byol"
+            "value": "vthunder-adc-521-byol"
         },
         "imagePublisher_vthunder":{
             "value": "a10networks"
         },
         "imageOffer_vthunder":{
-            "value": "a10-vthunder-adc-520-for-microsoft-azure"
+            "value": "a10-vthunder-adc-521"
         },
         "vmSize": {
             "value": "Standard_A4_v2"
