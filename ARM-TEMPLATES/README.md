@@ -24,13 +24,13 @@ in different design and configuration namely:
 - Deploying vThunder ADC in Azure- 3 NICs(1 Management + 2 Data) - 2VM - HA**<br>
       - *BYOL(Bring Your Own License)*<br>
       - *2 VM*<br>
-      - *High Availability (Auto swithover with another available VM)*<br>
+      - *HIGH AVAILABILITY (Auto swithover with another available VM)*<br>
       - *SLB (vThunder Server Load Balancer)*<br>
       - *SSL (SSL Certification)*<br>
 - Deploying vThunder ADC in Azure- 3 NICs(1 Management + 2 Data) - 2VM - HA - GLM - PVTVIP**<br>
       - *BYOL(Bring Your Own License)*<br>
       - *2 VM*<br>
-      - *High Availability (Auto swithover with another available VM)*<br>
+      - *HIGH AVAILABILITY (Auto swithover with another available VM)*<br>
       - *VIP (Private Interface)*<br>
       - *SLB (vThunder Server Load Balancer)*<br>
       - *SSL (SSL Certification)*<br>
@@ -38,21 +38,21 @@ in different design and configuration namely:
 - Deploying vThunder ADC in Azure- 3 NICs(1 Management + 2 Data) - 2 VM - HA - GLM - PUBVIP - BACKAUTO**<br>
       - *BYOL(Bring Your Own License)*<br>
       - *2 VM*<br>
-      - *High Availability (Auto swithover with another available VM)*<br>
+      - *HIGH AVAILABILITY (Auto swithover with another available VM)*<br>
       - *VIP (Public Interface)*<br>
-      - *Backend Auto Scaling (Configure vThunder on client servers auto scaling)*<br>
+      - *BACKEND SERVER AUTOSCALE (Webhook to configure vThunder on web servers auto scaling)*<br>
       - *GLM (Auto apply A10 license using global license manager)*<br>
       - *SLB (vThunder Server Load Balancer)*<br>
       - *SSL (SSL Certification)*<br>
 - Deploying vThunder ADC in Azure- 3 NICs(1 Management + 2 Data) - NVM - VMSS**<br>
       - *BYOL(Bring Your Own License)*<br>
-      - *Unlimited Numberes of VMs*<br>
+      - *UNLIMITED Numberes of VMs*<br>
       - *VMSS (Virtual Machine Scale Set - vThunder autoscaling using metrics and rules)*<br>
       - *GLM (Auto apply A10 license using global license manager)*<br>
       - *SLB (vThunder Server Load Balancer)*<br>
       - *SSL (SSL Certification)*<br>
-      - *Log Analysis using Azure Log Analytics integration*<br>
-      - *Azure Application Insight integration*<br>
+      - *AZURE MONITOR SERVICE (Azure log monitoring using azure log analytics service)*<br>
+      - *AZURE INSIGHT (Autoscale using custom metrics and monitoring using azure application insight service)*<br>
 - Deploying vThunder ADC in Azure- 3 NICs(1 Management + 2 Data) - 6VM(Three in each region) - 2RG(Region) - GSLB**<br>
       - *BYOL(Bring Your Own License)*<br>
       - *3 VM in each region*<br>
