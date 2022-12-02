@@ -51,7 +51,7 @@ in different design and configuration namely:
       - *Azure Application Insight integration*<br>
 - Deploying vThunder ADC in Azure- 3 NICs(1 Management + 2 Data) - 6VM(Three in each region) - 2RG(Region) - GSLB**<br>
       - *3 VM in each region*<br>
-      - *2 Region.
+      - *2 Region*<br>
       - *GSLB (vThunder - Global Server Load Balancer for traffic routing across region.)*<br>
       - *SSL (SSL Certification)*<br>
 	  
