@@ -51,7 +51,7 @@ in different design and configuration namely:
       - *GLM (Auto apply A10 license using global license manager)*<br>
       - *SLB (vThunder Server Load Balancer)*<br>
       - *SSL (SSL Certification)*<br>
-      - *AZURE MONITOR SERVICE (Azure log monitoring using azure log analytics service)*<br>
+      - *AZURE ANALYTICS (Azure log monitoring using azure log analytics service)*<br>
       - *AZURE INSIGHT (Autoscale using custom metrics and monitoring using azure application insight service)*<br>
 - Deploying vThunder ADC in Azure- 3 NICs(1 Management + 2 Data) - 6VM(Three in each region) - 2RG(Region) - GSLB**<br>
       - *BYOL(Bring Your Own License)*<br>
