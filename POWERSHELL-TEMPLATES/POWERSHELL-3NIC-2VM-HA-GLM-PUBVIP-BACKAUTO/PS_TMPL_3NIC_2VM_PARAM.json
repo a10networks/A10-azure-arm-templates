@@ -1,0 +1,87 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUsername": {
+      "value": "vth-user"
+    },
+    "adminPassword": {
+      "value": "vth-Password" 
+    },
+    "virtual_network": {
+      "value": "vth-vmss-vnet"
+    },
+    "vmName_vthunder1": {
+      "value": "vth-inst1"
+    },
+    "vmName_vthunder2": {
+      "value": "vth-inst2"
+    },
+    "vmSize": {
+      "value": "Standard_B4ms"
+    }, 
+    "vThunderImage": {
+      "value":"vthunder-adc-521-byol"
+    },
+    "publisherName": {
+      "value": "a10networks"
+    },
+    "productName": {
+      "value": "a10-vthunder-adc-521"
+    },
+    "nic1Name_vm1": {
+      "value": "vth-inst1-mgmt-nic1"
+    },
+    "nic2Name_vm1": {
+      "value": "vth-inst1-data-nic2"
+    },
+    "nic3Name_vm1": {
+      "value": "vth-inst1-data-nic3"
+    },
+    "nic1Name_vm2": {
+      "value": "vth-inst2-mgmt-nic1"
+    },
+    "nic2Name_vm2": {
+      "value": "vth-inst2-data-nic2"
+    },
+    "nic3Name_vm2": {
+      "value": "vth-inst2-data-nic3"
+    },
+    "vm1MgmtIntfName": {
+      "value": "vth-inst1-mgmt"
+    },
+    "addressPrefix": {
+      "value": "10.0.0.0/16"
+    },
+    "mgmtIntfPrivatePrefix": {
+      "value": "10.0.1.0/24"
+    },
+    "vm1Eth1Name": {
+      "value": "vth-inst1-data1"
+    },
+    "eth1PrivatePrefix": {
+      "value": "10.0.2.0/24"
+    },
+    "vm1Eth2Name": {
+      "value": "vth-inst1-data2"
+    },
+    "eth2PrivatePrefix": {
+      "value": "10.0.3.0/24"
+    },
+    "vm2MgmtIntfName": {
+      "value": "vth-inst2-mgmt"
+    },
+    "vm2Eth1Name": {
+      "value": "vth-inst2-data1"
+    },
+    "vm2Eth2Name": {
+      "value": "vth-inst2-data2"
+    },
+    "networkSecurityGroupName_vm1": {
+      "value": "vth-nsg1"
+    },
+    "networkSecurityGroupName_vm2": {
+      "value": "vth-nsg2"
+    }
+  }
+} 

@@ -1,0 +1,87 @@
+{
+  "$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion":"1.0.0.0",
+  "parameters":{
+     "adminUsername":{
+        "value":"vth-user"
+     },
+     "adminPassword":{
+        "value":"vth-Password"
+     },
+     "dnsLabelPrefix1":{
+        "value":"vth-inst1"
+     },
+     "vmssName":{
+        "value":"vth-vmss"
+     },
+     "vmssSku":{
+        "value":"Standard_B4ms"
+     },
+     "instanceCount":{
+        "value":1
+     },
+     "vThunderImage":{
+        "value":"vthunder-adc-521-byol"
+     },
+     "publisherName":{
+        "value":"a10networks"
+     },
+     "productName":{
+        "value":"a10-vthunder-adc-521"
+     },
+     "mgmtIntfPrivatePrefix":{
+        "value":"10.0.1.0/24"
+     },
+     "eth1PrivatePrefix":{
+        "value":"10.0.2.0/24"
+     },
+     "eth2PrivatePrefix":{
+        "value":"10.0.3.0/24"
+     },
+     "nic1Name":{
+        "value":"vth-inst1-mgmt-nic1"
+     },
+     "nic2Name":{
+        "value":"vth-inst1-data-nic2"
+     },
+     "nic3Name":{
+        "value":"vth-inst1-data-nic3"
+     },
+     "nic1PublicIPName":{
+        "value":"vth-inst1-mgmt-nic1-ip"
+     },
+     "networkSecurityGroupName":{
+        "value":"vth-nsg1"
+     },
+     "storageAccountName": {
+        "value": "vthunderstorage"
+     },
+     "sslContainerName": {
+        "value": "ssl"
+     },
+     "lbName": {
+        "value": "vth-lb1"
+     },
+     "lbPubIPName": {
+        "value": "vth-lb1-ip"
+     },
+     "lbFrontEndName": {
+        "value": "vth-lb1-frnt-ip"
+     },
+     "lbBackEndPoolName": {
+        "value": "vth-lb1-bck-pool1"
+     },
+     "logAgentContainerName":{
+        "value": "vth-agent-contn"
+     },
+     "vmName": {
+        "value": "vth-agent-ins1"
+     },
+     "vmSku":{
+        "value":"Standard_B4ms"
+     },
+     "automationAccountName":{
+      "value": "vth-amt-acc"
+   }
+  }
+}

@@ -1,4 +1,4 @@
-# A10 Networks Azure Resource Manager (ARM) Templates Release v1.0.0
+# A10 Networks Azure Resource Manager (ARM) Templates Release v1.1.0
 Azure ARM templates can be deployed through the Azure Command lines (CLI).
 
 - **Azure CLI**<br>
@@ -6,9 +6,15 @@ The pre-requisite to using this option is to download the scripts first by the u
 like resource group, VM name, network etc before pasting the script’s content on either Azure CLI. 
 For more information on using this option please refer to Azure documentation: https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-deploy-portal
 
+##Global License Manager (GLM)
+For all A10 licenses, GLM (Global License Manager) is the authoritative service. 
+All A10 products conform with license and licensing policies dictated by GLM. 
+GLM is available at https://glm.a10networks.com. 
+Default License Manager for HC is set to GLM. 
+User can change this in Controller scope by logging in as Super-admin.
+
 # A10’s ARM Template Information
-A10’s ARM templates listed here are for deploying vThunder ADC (Application Delivery Controller) System 
-in different design and configuration namely:
+A10’s ARM templates listed here are for deploying vThunder ADC (Application Delivery Controller) in different design and configuration namely:
 
 - Deploying vThunder ADC in Azure- 2 NICs(1 Management + 1 Data) - 1 VM **<br>
       - *BYOL(Bring Your Own License)*<br>
@@ -61,3 +67,14 @@ in different design and configuration namely:
 	  
 For more detailed documentation please refer offline documentation within repository or online documentation :
 https://documentation.a10networks.com/IaC/ARM_Powershell/index.html
+
+## A10’s vThunder Support Information
+A10’s vThunder vADC (Application Delivery Controller) list below are tested and supported.
+- 64-bit Advanced Core OS (ACOS) version 5.2.0, build 155.
+- 64-bit Advanced Core OS (ACOS) version 5.2.1-p5, build 114
+- 64-bit Advanced Core OS (ACOS) version 5.2.1-p6, build 74
+
+## Release Logs Information
+- Automated script to change password after installation.
+- Automated scripts to install and configure runbooks.
+- Advance support for ACOS version 6.X.X.
