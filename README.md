@@ -30,7 +30,7 @@ For more detailed documentation please refer offline documentation within reposi
 https://documentation.a10networks.com/IaC/ARM_Powershell/index.html
 
 ## A10’s vThunder Support Information
-A10’s vThunder vADC (Application Delivery Controller) list below are tested and supported.
+Below listed A10’s vThunder vADC (Application Delivery Controller) are tested and supported.
 - 64-bit Advanced Core OS (ACOS) version 5.2.0, build 155.
 - 64-bit Advanced Core OS (ACOS) version 5.2.1-p5, build 114
 - 64-bit Advanced Core OS (ACOS) version 5.2.1-p6, build 74
