@@ -16,30 +16,30 @@ User can change this in Controller scope by logging in as Super-admin.
 # A10’s Azure Powershell Template Information
 A10’s Azure Powershell templates listed here are for deploying vThunder ADC (Application Delivery Controller) in different design and configuration namely:
 
-- **Deploying vThunder ADC in Azure- 2 NICs - 1 VM (1 Management + 1 Data)**<br>
+- **Deploying vThunder ADC in Azure - 2 NICs - 1 VM (1 Management + 1 Data)**<br>
       - *BYOL(Bring Your Own License)*<br>
       - *1 VM*<br>
       - *SLB (Server Load Balancer)*<br>
       - *SSL (SSL Certification)*<br>
-- **Deploying vThunder ADC in Azure- 2 NICs - 1 VM - GLM (1 Management + 1 Data)**<br>
+- **Deploying vThunder ADC in Azure - 2 NICs - 1 VM - GLM (1 Management + 1 Data)**<br>
       - *Global License Manager (GLM is the master licensing and billing system for A10 vThunder)*<br>
       - *1 VM*<br>
       - *SLB (Server Load Balancer)*<br>
       - *SSL (SSL Certification)*<br>
-- **Deploying vThunder ADC in Azure- 3 NICs - 2 VM - HA (1 Management + 2 Data)**<br>
+- **Deploying vThunder ADC in Azure - 3 NICs - 2 VM - HA (1 Management + 2 Data)**<br>
       - *BYOL(Bring Your Own License)*<br>
       - *2 VM*<br>
       - *High Availability (Auto swithover with multiple VMs)*<br>
       - *SLB (Server Load Balancer)*<br>
       - *SSL (SSL Certification)*<br>
-- **Deploying vThunder ADC in Azure- 3 NICs - 2 VM - HA - GLM - PVTVIP (1 Management + 2 Data)**<br>
+- **Deploying vThunder ADC in Azure - 3 NICs - 2 VM - HA - GLM - PVTVIP (1 Management + 2 Data)**<br>
       - *2 VM*<br>
       - *High Availability (Auto swithover with multiple VMs)*<br>
       - *VIP (Private Interface)*<br>
       - *Global License Manager (GLM is the master licensing and billing system for A10 vThunder)*<br>
       - *SLB (Server Load Balancer)*<br>
       - *SSL (SSL Certification)*<br>
-- **Deploying vThunder ADC in Azure- 3 NICs - 2 VM - HA - GLM - PUBVIP - BACKAUTO (1 Management + 2 Data)**<br>
+- **Deploying vThunder ADC in Azure - 3 NICs - 2 VM - HA - GLM - PUBVIP - BACKAUTO (1 Management + 2 Data)**<br>
       - *2 VM*<br>
       - *High Availability (Auto swithover with multiple VMs)*<br>
       - *VIP (Public Interface)*<br>
