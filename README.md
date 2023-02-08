@@ -28,3 +28,12 @@ A10’s ARM templates listed here are for deploying vThunder ADC (Application De
 
 For more detailed documentation please refer offline documentation within repository or online documentation :
 https://documentation.a10networks.com/IaC/ARM_Powershell/index.html
+
+## A10’s vThunder Support Information
+Below listed A10’s vThunder vADC (Application Delivery Controller) are tested and supported.
+- 64-bit Advanced Core OS (ACOS) version 5.2.1-p5, build 114.
+
+
+## Release Logs Information
+- vThunder infra setup with different feature and combinations.
+- vThunder configuration.
