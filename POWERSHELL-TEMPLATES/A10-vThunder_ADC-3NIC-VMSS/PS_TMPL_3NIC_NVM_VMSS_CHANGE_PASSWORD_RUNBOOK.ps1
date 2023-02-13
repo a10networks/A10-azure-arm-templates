@@ -248,15 +248,20 @@ if ($vThunderProcessingIP) {
                 $vThCurrentPassword = Get-AutomationVariable -Name vThCurrentPassword
                 if ($vThCurrentPassword -eq $vThNewPassword) {
                     Write-Output "Updated current password to new password successfully."
+                    # Update flag
+                    $isPasswordChangesForAll = 'FALSE'
+                    Set-AutomationVariable -Name "vThNewPassApplyFlag" -Value $isPasswordChangesForAll
                     break
                 }
                 $currentRetry++
             }
+        } else {
+            Write-Output "Updated current password to new password successfully."
+            # Update flag
+            $isPasswordChangesForAll = 'FALSE'
+            Set-AutomationVariable -Name "vThNewPassApplyFlag" -Value $isPasswordChangesForAll
+        }
     }
-    }
-    # Update flag
-    $isPasswordChangesForAll = 'FALSE'
-    Set-AutomationVariable -Name "vThNewPassApplyFlag" -Value $isPasswordChangesForAll
 } else {
         Write-Output "Invalid action, try again..."
 }

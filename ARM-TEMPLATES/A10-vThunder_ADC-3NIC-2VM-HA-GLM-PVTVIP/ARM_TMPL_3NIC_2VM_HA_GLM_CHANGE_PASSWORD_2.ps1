@@ -17,7 +17,7 @@ if ($null -eq $ParamData) {
 # Get ARM_TMPL_2NIC_1VM_SLB_CONFIG_PARAM.json file content
 $autoParamData = Get-Content -Raw -Path ARM_TMPL_3NIC_2VM_SLB_CONFIG_PARAM.json | ConvertFrom-Json -AsHashtable
 
-if ($null -eq $paramData) {
+if ($null -eq $autoParamData) {
     Write-Error "ARM_TMPL_3NIC_2VM_SLB_CONFIG_PARAM.json data is missing." -ErrorAction Stop
 }
 

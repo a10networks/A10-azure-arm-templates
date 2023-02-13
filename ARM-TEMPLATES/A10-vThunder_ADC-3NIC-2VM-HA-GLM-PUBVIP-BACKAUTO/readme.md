@@ -16,7 +16,7 @@
         PowerShell script to configure vThunder instances as a SLB 
     8. ARM_TMPL_3NIC_2VM_SLB_CONFIG_PARAM.json
         Parameter file for SLB
-    9. ARM_TMPL_3NIC_2VM_HA_CONFIG_5.ps1
+    9. ARM_TMPL_3NIC_2VM_HA_CONFIG_6.ps1
         PowerShell script to enable HA between 2 vThunder instances
     10. ARM_TMPL_3NIC_2VM_HA_CONFIG_PARAM.json
         Parameter file for HA
@@ -33,7 +33,7 @@
 	   https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.2
 	   
     2. Install Azure az module
-	   https://docs.microsoft.com/en-us/powershell/azure/new-azureps-module-az?view=azps-7.2.0
+	   https://www.powershellgallery.com/packages/Az/8.3.0
 	   
     3. Set execution policy to Unrestricted (only for windows machine)
        https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.2#managing-the-execution-policy-with-powershell
@@ -53,10 +53,10 @@
     3. Run script to change password
         .\ARM_TMPL_3NIC_2VM_HA_GLM_CHANGE_PASSWORD_3.ps1
     4. Run script to create webhook
-        .\ARM_TMPL_3NIC_2VM_WEBHOOK_3.ps1
+        .\ARM_TMPL_3NIC_2VM_WEBHOOK_4.ps1
     5. Run script to configure vThunders as SLB
-       .\ARM_TMPL_3NIC_2VM_SLB_CONFIG_4.ps1 -resourceGroup <resource-group-name>
+       .\ARM_TMPL_3NIC_2VM_SLB_CONFIG_5.ps1
     6. Run script to enable HA between 2 vThunder instances
-       .\ARM_TMPL_3NIC_2VM_HA_CONFIG_5.ps1 -resourceGroup <resource-group-name>
+       .\ARM_TMPL_3NIC_2VM_HA_CONFIG_6.ps1
     7. Run script to apply GLM license on both vthunder instances
-       .\ARM_TMPL_3NIC_2VM_GLM_CONFIG_6.ps1 -resourceGroup <resource-group-name>
+       .\ARM_TMPL_3NIC_2VM_GLM_CONFIG_7.ps1
