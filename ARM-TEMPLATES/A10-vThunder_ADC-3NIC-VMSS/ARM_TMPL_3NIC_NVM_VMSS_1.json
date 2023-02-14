@@ -212,6 +212,20 @@
          "metadata": {
             "description": "String used as a base for naming resources. Must be 3-61 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
          }
+      },
+      "automationAccountName": {
+       "type": "string",
+       "minLength": 3,
+       "maxLength": 61,
+       "metadata": {
+            "description": "String used as a base for naming resources. Must be 3-61 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
+         }
+     },
+      "artifactsLocation": {
+         "type": "string",
+         "metadata": {
+            "description": "String used as a base for naming resources. Must be 0-265 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
+         }
       }
    },
    "variables":{
@@ -251,7 +265,16 @@
       "agentNIName":"vth-agent-nic",
       "workspaceName":"vth-vmss-log-workspace",
       "workspaceSku":"pergb2018",
-      "appInsightsName":"vth-vmss-app-insights"
+      "appInsightsName":"vth-vmss-app-insights",
+      "_artifactsLocation":"[parameters('artifactsLocation')]",
+      "_artifactsLocationSasToken": "",
+      "PSMasterRunbookDescription": "Runbook to run all runbook",
+      "PSSLBConfigRunbookDescription": "Runbook to apply slb config for all vThunder",
+      "PSSSLConfigRunbookDescription": "Runbook to apply ssl certificate for all vThunder",
+      "PSEventConfigRunbookDescription": "Runbook to apply event config for all vThunder",
+      "PSGLMConfigRunbookDescription": "Runbook to glm config for all vThunder",
+      "PSGLMRevokeConfigRunbookDescription": "Runbook to revoke glm for deleted vThunder",
+      "PSChangePasswordConfigRunbookDescription": "Runbook to change password for all vThunder"
    },
    "resources":[
       {
@@ -818,6 +841,158 @@
              "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]",
              "[resourceId('Microsoft.Network/networkInterfaces', variables('agentNIName'))]"
          ]
-      }
+      },
+      {
+       "type": "Microsoft.Automation/automationAccounts",
+       "apiVersion": "2020-01-13-preview",
+       "name": "[parameters('automationAccountName')]",
+       "location": "[parameters('location')]",
+       "dependsOn": [
+         "[resourceId('Microsoft.OperationalInsights/workspaces', variables('workspaceName'))]"
+       ],
+       "identity": {
+         "type": "SystemAssigned"
+       },
+       "properties": {
+         "sku": {
+           "name": "Basic"
+         }
+       },
+       "resources": [
+         {
+           "type": "runbooks",
+           "apiVersion": "2020-01-13-preview",
+           "name": "Master-Runbook",
+           "location": "[parameters('location')]",
+           "dependsOn": [
+             "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccountName'))]"
+           ],
+           "properties": {
+             "runbookType": "PowerShell",
+             "logProgress": "false",
+             "logVerbose": "false",
+             "description": "[variables('PSMasterRunbookDescription')]",
+             "publishContentLink": {
+               "uri": "[uri(variables('_artifactsLocation'), concat('ARM_TMPL_3NIC_NVM_VMSS_MASTER_RUNBOOK.ps1', variables('_artifactsLocationSasToken')))]",
+               "version": "1.0.0.0"
+             }
+           }
+         },
+         {
+           "type": "runbooks",
+           "apiVersion": "2020-01-13-preview",
+           "name": "SLB-Config",
+           "location": "[parameters('location')]",
+           "dependsOn": [
+             "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccountName'))]"
+           ],
+           "properties": {
+             "runbookType": "PowerShell",
+             "logProgress": "false",
+             "logVerbose": "false",
+             "description": "[variables('PSSLBConfigRunbookDescription')]",
+             "publishContentLink": {
+               "uri": "[uri(variables('_artifactsLocation'), concat('ARM_TMPL_3NIC_NVM_VMSS_SLB_RUNBOOK.ps1', variables('_artifactsLocationSasToken')))]",
+               "version": "1.0.0.0"
+             }
+           }
+         },
+         {
+           "type": "runbooks",
+           "apiVersion": "2020-01-13-preview",
+           "name": "SSL-Config",
+           "location": "[parameters('location')]",
+           "dependsOn": [
+             "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccountName'))]"
+           ],
+           "properties": {
+             "runbookType": "PowerShell",
+             "logProgress": "false",
+             "logVerbose": "false",
+             "description": "[variables('PSSSLConfigRunbookDescription')]",
+             "publishContentLink": {
+               "uri": "[uri(variables('_artifactsLocation'), concat('ARM_TMPL_3NIC_NVM_VMSS_SSL_RUNBOOK.ps1', variables('_artifactsLocationSasToken')))]",
+               "version": "1.0.0.0"
+             }
+           }
+         },
+         {
+           "type": "runbooks",
+           "apiVersion": "2020-01-13-preview",
+           "name": "Event-Config",
+           "location": "[parameters('location')]",
+           "dependsOn": [
+             "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccountName'))]"
+           ],
+           "properties": {
+             "runbookType": "PowerShell",
+             "logProgress": "false",
+             "logVerbose": "false",
+             "description": "[variables('PSEventConfigRunbookDescription')]",
+             "publishContentLink": {
+               "uri": "[uri(variables('_artifactsLocation'), concat('ARM_TMPL_3NIC_NVM_VMSS_ACOS_EVENT_CONFIG_RUNBOOK.ps1', variables('_artifactsLocationSasToken')))]",
+               "version": "1.0.0.0"
+             }
+           }
+         },
+         {
+           "type": "runbooks",
+           "apiVersion": "2020-01-13-preview",
+           "name": "GLM-Config",
+           "location": "[parameters('location')]",
+           "dependsOn": [
+             "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccountName'))]"
+           ],
+           "properties": {
+             "runbookType": "PowerShell",
+             "logProgress": "false",
+             "logVerbose": "false",
+             "description": "[variables('PSGLMConfigRunbookDescription')]",
+             "publishContentLink": {
+               "uri": "[uri(variables('_artifactsLocation'), concat('ARM_TMPL_3NIC_NVM_VMSS_GLM_RUNBOOK.ps1', variables('_artifactsLocationSasToken')))]",
+               "version": "1.0.0.0"
+             }
+           }
+         },
+         {
+           "type": "runbooks",
+           "apiVersion": "2020-01-13-preview",
+           "name": "GLM-Revoke-Config",
+           "location": "[parameters('location')]",
+           "dependsOn": [
+             "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccountName'))]"
+           ],
+           "properties": {
+             "runbookType": "PowerShell",
+             "logProgress": "false",
+             "logVerbose": "false",
+             "description": "[variables('PSGLMRevokeConfigRunbookDescription')]",
+             "publishContentLink": {
+               "uri": "[uri(variables('_artifactsLocation'), concat('ARM_TMPL_3NIC_NVM_VMSS_GLM_REVOKE_RUNBOOK.ps1', variables('_artifactsLocationSasToken')))]",
+               "version": "1.0.0.0"
+             }
+           }
+         },
+         {
+           "type": "runbooks",
+           "apiVersion": "2020-01-13-preview",
+           "name": "Change-Password-Config",
+           "location": "[parameters('location')]",
+           "dependsOn": [
+             "[resourceId('Microsoft.Automation/automationAccounts', parameters('automationAccountName'))]"
+           ],
+           "properties": {
+             "runbookType": "PowerShell",
+             "logProgress": "false",
+             "logVerbose": "false",
+             "description": "[variables('PSChangePasswordConfigRunbookDescription')]",
+             "publishContentLink": {
+               "uri": "[uri(variables('_artifactsLocation'), concat('ARM_TMPL_3NIC_NVM_VMSS_CHANGE_PASSWORD_RUNBOOK.ps1', variables('_artifactsLocationSasToken')))]",
+               "version": "1.0.0.0"
+             }
+           }
+         }
+       ]
+     }
    ]
 }

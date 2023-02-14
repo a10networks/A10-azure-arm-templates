@@ -15,6 +15,7 @@
     "userPassword": "your_password",
     "entitlementToken": "A10xxa2fxxxx",
     "licenseId": "59xxx"
+
   },
   "sslParam": {
     "requestTimeout": 40,
@@ -22,7 +23,7 @@
     "file": "server",
     "certificationType": "pem",
     "containerName": "ssl",
-    "storageAccountKey":"LX6z8xxxxxxehXB0xxxv7xxxx/xxxOfzxxxxxROxxx5gXzxxxxfhxcx0gxxxxx9rxxASxxxsx=="
+    "storageAccountKey":"LX6z8xxxxxxehXx0xxxv7xxxx/xxxOfzxxxxxROxxx5gXzxxxxfhxcx0gxxxxx9rxxASxxxsx=="
   },
   "slbParam":{
     "slb_port":{
@@ -85,10 +86,10 @@
     "scaleInThreshold": 25,
     "scaleOutThreshold": 80
   },
-  "vThunderIP": {},
+  "vThunderIP": "",
   "vCPUUsage": {},
   "clientSecret": "9-xxx~jIxxxEVyxxxxHNxxxOwv_xxxxZLxxxTM",
   "agentPrivateIP": "10.0.1.4",
-  "vThUsername": "admin",
-  "vThPassword": "a10"
+  "vThUserName": "admin",
+  "vThNewPassApplyFlag": "False"
 }

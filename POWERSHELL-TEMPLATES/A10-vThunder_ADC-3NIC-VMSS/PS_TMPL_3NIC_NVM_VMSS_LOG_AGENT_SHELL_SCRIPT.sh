@@ -55,7 +55,6 @@ sudo make
 cd $1/usr/local/go/src/telegraf/plugins/inputs
 
 #clone customplugin folder from gitlab
-#sudo git clone https://github.com/mayurchrs/customplugin.git
 sudo unzip /usr/local/plugins.zip -d /usr/local/
 sudo cp -r /usr/local/plugins/telegraf/plugins/inputs/customplugin /usr/local/go/src/telegraf/plugins/inputs/
 cd $1/usr/local/go/src/telegraf/plugins/inputs/customplugin

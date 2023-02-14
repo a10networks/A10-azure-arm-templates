@@ -16,8 +16,7 @@ Param (
  )
 
 # Get config data from param file
-$paramData = Get-Content -Raw -Path PS_TMPL_3NIC_NVM_VMSS_PARAM.json | ConvertFrom-Json -AsHashtable
-Write-Output $paramData
+$paramData = Get-Content -Raw -Path PS_TMPL_3NIC_NVM_VMSS_PARAM.json | ConvertFrom-Json
 
 # Authenticate with Azure Portal
 Connect-AzAccount
@@ -43,6 +42,7 @@ $storageAccountName = $paramData.parameters.storageAccountName.value
 $vmName = $paramData.parameters.vmName.value
 $workspaceName = "vth-vmss-log-workspace"
 $appInsightName = "vth-vmss-app-insights"
+$automationAccountName = $paramData.parameters.automationAccountName.value
 
 #Create new resource group for deployment
 New-AzResourceGroup -Name $resourceGroupName -Location $location
@@ -52,10 +52,87 @@ $storageAccObj = New-AzStorageAccount -ResourceGroupName $resourceGroupName -Acc
 
 #Create storage account Container
 New-AzStorageContainer -Name $paramData.parameters.sslContainerName.value -Permission Off -Context $storageAccObj.Context
+
 New-AzStorageContainer -Name $paramData.parameters.logAgentContainerName.value -Permission Off -Context $storageAccObj.Context
 
 # Create the workspace
 New-AzOperationalInsightsWorkspace -Location $location -Name $workspaceName -ResourceGroupName $resourceGroupName
+# create automation account
+New-AzAutomationAccount -Name $automationAccountName -Location $location -ResourceGroupName $resourceGroupName
+
+$workingDir = Get-Location
+
+$changePasswordRunbookPath = -join($workingDir,"\", "PS_TMPL_3NIC_NVM_VMSS_CHANGE_PASSWORD_RUNBOOK.ps1")
+
+$paramsChangePassword = @{
+    AutomationAccountName = $automationAccountName
+    Name                  = 'Change-Password-Config'
+    ResourceGroupName     = $resourceGroupName
+    Type                  = 'PowerShell'
+    Path                  = $changePasswordRunbookPath
+}
+Import-AzAutomationRunbook -Published @paramsChangePassword
+
+$slbRunbookPath = -join($workingDir,"\", "PS_TMPL_3NIC_NVM_VMSS_SLB_RUNBOOK.ps1")
+$paramsSLBConfig = @{
+    AutomationAccountName = $automationAccountName
+    Name                  = 'SLB-Config'
+    ResourceGroupName     = $resourceGroupName
+    Type                  = 'PowerShell'
+    Path                  = $slbRunbookPath
+}
+Import-AzAutomationRunbook -Published @paramsSLBConfig
+
+$sslRunbookPath = -join($workingDir,"\", "PS_TMPL_3NIC_NVM_VMSS_SSL_RUNBOOK.ps1")
+$paramsSSLConfig = @{
+    AutomationAccountName = $automationAccountName
+    Name                  = 'SSL-Config'
+    ResourceGroupName     = $resourceGroupName
+    Type                  = 'PowerShell'
+    Path                  = $sslRunbookPath
+}
+Import-AzAutomationRunbook -Published @paramsSSLConfig
+
+$glmRunbookPath = -join($workingDir,"\", "PS_TMPL_3NIC_NVM_VMSS_GLM_RUNBOOK.ps1")
+$paramsGLMConfig = @{
+    AutomationAccountName = $automationAccountName
+    Name                  = 'GLM-Config'
+    ResourceGroupName     = $resourceGroupName
+    Type                  = 'PowerShell'
+    Path                  = $glmRunbookPath
+}
+Import-AzAutomationRunbook -Published @paramsGLMConfig
+
+$acosEventRunbookPath = -join($workingDir,"\", "PS_TMPL_3NIC_NVM_VMSS_ACOS_EVENT_CONFIG_RUNBOOK.ps1")
+$paramsEventConfig = @{
+    AutomationAccountName = $automationAccountName
+    Name                  = 'Event-Config'
+    ResourceGroupName     = $resourceGroupName
+    Type                  = 'PowerShell'
+    Path                  = $acosEventRunbookPath
+}
+Import-AzAutomationRunbook -Published @paramsEventConfig
+
+$glmRevokeRunbookPath = -join($workingDir,"\", "PS_TMPL_3NIC_NVM_VMSS_GLM_REVOKE_RUNBOOK.ps1")
+$paramsGLMRevokeConfig = @{
+    AutomationAccountName = $automationAccountName
+    Name                  = 'GLM-Revoke-Config'
+    ResourceGroupName     = $resourceGroupName
+    Type                  = 'PowerShell'
+    Path                  = $glmRevokeRunbookPath
+}
+Import-AzAutomationRunbook -Published @paramsGLMRevokeConfig
+
+$masterRunbookPath = -join($workingDir,"\", "PS_TMPL_3NIC_NVM_VMSS_MASTER_RUNBOOK.ps1")
+$paramsMasterRunbook = @{
+    AutomationAccountName = $automationAccountName
+    Name                  = 'Master-Runbook'
+    ResourceGroupName     = $resourceGroupName
+    Type                  = 'PowerShell'
+    Path                  = $masterRunbookPath
+}
+Import-AzAutomationRunbook -Published @paramsMasterRunbook
+
 
 # Create application Insights
 New-AzApplicationInsights -ResourceGroupName $resourceGroupName -Name $appInsightName -location $location

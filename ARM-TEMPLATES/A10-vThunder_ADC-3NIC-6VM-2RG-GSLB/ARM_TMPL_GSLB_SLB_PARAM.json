@@ -2,31 +2,35 @@
     "slbServerHostOrDomain1": {
         "servername": "s1",
         "host": "10.1.30.8",
+        "health-check-disable":1,
         "action": "enable"
     },
     "slbServerHostOrDomain2": {
         "servername": "s1",
         "host": "10.1.30.9",
+        "health-check-disable":1,
         "action": "enable"
     },
     "slbServerHostOrDomain3": {
         "servername": "s1",
         "host": "10.2.30.8",
+        "health-check-disable":1,
         "action": "enable"
     },
     "slbServerHostOrDomain4": {
         "servername": "s1",
         "host": "10.2.30.9",
+        "health-check-disable":1,
         "action": "enable"
     },
     "parameters": {
 
-        "slbServerPortList1": {
+        "slbServerPortList1": {      
             "value": [
                 {
                     "port-number": 80,
                     "protocol": "tcp",
-                    "health-check-disable":0
+                    "health-check-disable":1
                 }
             ]
         },
@@ -35,7 +39,7 @@
                 {
                     "port-number": 80,
                     "protocol": "tcp",
-                    "health-check-disable":0
+                    "health-check-disable":1
                 }
             ]
         },
@@ -44,7 +48,7 @@
                 {
                     "port-number": 80,
                     "protocol": "tcp",
-                    "health-check-disable":0
+                    "health-check-disable":1
                 }
             ]
         },
@@ -53,7 +57,7 @@
                 {
                     "port-number": 80,
                     "protocol": "tcp",
-                    "health-check-disable":0
+                    "health-check-disable":1
                 }
             ]
         },
@@ -295,7 +299,9 @@
         "defaultroute2":
         {
             "next-hop": "10.2.20.1"
-        }
+        },
+        "resourceGroupName": "gslb-test-rg",
+        "vThUsername": "admin"
     }
 }
 

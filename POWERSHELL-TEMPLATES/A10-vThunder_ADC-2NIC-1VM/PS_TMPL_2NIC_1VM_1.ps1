@@ -23,7 +23,11 @@ Write-Host $storageaccount
 Write-Host $location
 
 $ParamData = Get-Content -Raw -Path PS_TMPL_2NIC_1VM_PARAM.json | ConvertFrom-Json -AsHashtable
-Write-Output $ParamData
+if ($null -eq $ParamData) {
+    Write-Error "PS_TMPL_2NIC_1VM_PARAM.json file is missing." -ErrorAction Stop
+}
+
+#login into azure
 Login-AzAccount
 
 $vmName = $ParamData.parameters.vmName.value
@@ -79,7 +83,7 @@ $mgmtnic = New-AzNetworkInterface -ResourceGroupName $resourceGroup -Name $Param
 Write-Host $mgmtsubnet
 Write-Host $mgmtnic
 $data1subnet = $vnet.Subnets | Where-Object{ $_.Name -eq 'data1subnet' }
-$data1nic = New-AzNetworkInterface -ResourceGroupName $resourceGroup -Name $ParamData.parameters.nic2Name.value -Location $location -SubnetId $data1subnet.Id
+$data1nic = New-AzNetworkInterface -ResourceGroupName $resourceGroup -Name $ParamData.parameters.nic2Name.value -Location $location -SubnetId $data1subnet.Id -PrivateIpAddress $ParamData.parameters.eth1PrivateAddress.value
 Write-Host $data1subnet
 Write-Host $data1nic
 # Define a credential object

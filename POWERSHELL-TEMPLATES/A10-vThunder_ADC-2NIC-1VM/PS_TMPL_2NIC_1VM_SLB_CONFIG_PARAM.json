@@ -88,6 +88,8 @@
       "Path": "<absolute path of certificate>",
       "File": "<name of the certificate file>",
       "CertificationType": "pem"
-    }  
+    },
+    "resourceGroupName": "vth-rg1",
+    "vThUsername": "admin"
   }
 }  

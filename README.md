@@ -1,4 +1,4 @@
-# A10 Networks Azure Resource Manager (ARM/POWERSHELL) Templates Release v1.0.0
+# A10 Networks Azure Resource Manager (ARM/POWERSHELL) Templates Release v1.1.0
 Welcome to GitHub repository for A10’s ARM templates for Azure cloud. This repository hosts templates for single-click 
 deployment of A10’s vThunder on Azure cloud. 
 
@@ -31,9 +31,12 @@ https://documentation.a10networks.com/IaC/ARM_Powershell/index.html
 
 ## A10’s vThunder Support Information
 Below listed A10’s vThunder vADC (Application Delivery Controller) are tested and supported.
+- 64-bit Advanced Core OS (ACOS) version 5.2.0, build 155.
 - 64-bit Advanced Core OS (ACOS) version 5.2.1-p5, build 114.
-
+- 64-bit Advanced Core OS (ACOS) version 5.2.1-p6, build 74.
+- 64-bit Advanced Core OS (ACOS) version 6.0.0 build 419.
 
 ## Release Logs Information
-- vThunder infra setup with different feature and combinations.
-- vThunder configuration.
+- Automated script to change password after installation.
+- Automated scripts to install and configure runbooks.
+- Advance support for ACOS version 6.X.X.

@@ -9,7 +9,6 @@
   "mgmtInterface1": "vth-inst1-mgmt-nic1",
   "mgmtInterface2": "vth-inst2-mgmt-nic1",
   "vThUsername": "admin",
-  "vThPassword": "a10",
   "portList":{
     "value": [
       {

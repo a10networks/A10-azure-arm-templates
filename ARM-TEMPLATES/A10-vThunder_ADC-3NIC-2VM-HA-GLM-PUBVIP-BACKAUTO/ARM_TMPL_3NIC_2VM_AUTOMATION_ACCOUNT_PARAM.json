@@ -4,12 +4,11 @@
   "clientSecret": "<client-secret-id>",
   "appId": "<application-id>",
   "tenantId": "<tenant-id>",
-  "resourceGroupName": "vth-rg1",
   "vmssName": "vth-server-vmss",
   "mgmtInterface1": "vth-inst1-mgmt-nic1",
   "mgmtInterface2": "vth-inst2-mgmt-nic1",
+  "resourceGroupName": "vth-rg1",
   "vThUsername": "admin",
-  "vThPassword": "a10",
   "portList":{
     "value": [
       {

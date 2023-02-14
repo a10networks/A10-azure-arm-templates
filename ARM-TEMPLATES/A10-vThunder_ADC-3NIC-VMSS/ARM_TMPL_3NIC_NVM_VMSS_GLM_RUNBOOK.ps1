@@ -21,8 +21,9 @@ param (
 $glmData = Get-AutomationVariable -Name glmParam
 $glmParamData = $glmData | ConvertFrom-Json
 
-$vThUsername = Get-AutomationVariable -Name vThUsername
-$vThPassword = Get-AutomationVariable -Name vThPassword
+$vThUserName = Get-AutomationVariable -Name vThUserName
+$vThPassword = Get-AutomationVariable -Name vThCurrentPassword
+$oldPassword = Get-AutomationVariable -Name vThDefaultPassword
 
 if ($null -eq $glmParamData) {
     Write-Error "GLM Param data is missing." -ErrorAction Stop
@@ -55,7 +56,8 @@ function GetAuthToken {
         AXAPI: /axapi/v3/auth
     #>
     param (
-        $baseUrl
+        $baseUrl,
+        $vThPass
     )
 
     # AXAPI Auth url
@@ -66,16 +68,29 @@ function GetAuthToken {
     # AXAPI Auth url json body
     $body = "{
     `n    `"credentials`": {
-    `n        `"username`": `"$vThUsername`",
-    `n        `"password`": `"$vThPassword`"
+    `n        `"username`": `"$vThUserName`",
+    `n        `"password`": `"$vThPass`"
     `n    }
     `n}"
-    # Invoke Auth url
-    $response = Invoke-RestMethod -SkipCertificateCheck -Uri $url -Method 'POST' -Headers $headers -Body $body
-    # fetch Authorization token from response
-    $authorizationToken = $response.authresponse.signature
+    
+    $maxRetry = 5
+    $currentRetry = 0
+    while ($currentRetry -ne $maxRetry) {
+        # Invoke Auth url
+        [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+        $response = Invoke-RestMethod -Uri $url -Method 'POST' -Headers $headers -Body $body
+        # fetch Authorization token from response
+        $authorizationToken = $response.authresponse.signature
+        if ($null -eq $authorizationToken) {
+            Write-Error "Retry $currentRetry to get authorization token"
+            $currentRetry++
+            start-sleep -s 60
+        } else {
+            break
+        }
+    }
     if ($null -eq $authorizationToken) {
-        Write-Error "Falied to get authorization token from AXAPI" -ErrorAction Stop
+            Write-Error "Falied to get authorization token from AXAPI" -ErrorAction Stop
     }
     return $authorizationToken
 }
@@ -99,7 +114,8 @@ function GetApplianceUuid {
     $headers.Add("Authorization", "A10 $authorizationToken")
     $headers.Add("Content-Type", "application/json")
     # $urlUUID = -join("https://", $host_ip_address, "/axapi/v3/file/license/oper")
-    $response = Invoke-RestMethod -SkipCertificateCheck -Uri $urlUUID -Method 'GET' -Headers $headers
+    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+    $response = Invoke-RestMethod -Uri $urlUUID -Method 'GET' -Headers $headers
     $hostUUID = $response.license.oper.{host-id}
     if ($null -eq $hostUUID) {
         Write-Error "Falied to get Appliance UUID from glm API" -ErrorAction Stop
@@ -137,9 +153,6 @@ function ActivateLicense {
 
     $glmURL = $hostName + 'activations'
     $response = Invoke-RestMethod $glmURL -Method 'POST' -Headers $headers -Body $body
-    if ($null -eq $response) {
-        Write-Error "License activation failed" -ErrorAction Stop
-    }
 }
 
 function ConfigurePrimaryDns {
@@ -168,7 +181,8 @@ function ConfigurePrimaryDns {
     `n  }
     `n}"
 
-    $response = Invoke-RestMethod -SkipCertificateCheck -Uri $urlDNS -Method 'POST' -Headers $headers -Body $body
+    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+    $response = Invoke-RestMethod -Uri $urlDNS -Method 'POST' -Headers $headers -Body $body
     $response | ConvertTo-Json
     if ($null -eq $response) {
         Write-Error "failed to configure primary dns" -ErrorAction Stop
@@ -203,7 +217,8 @@ function ConfigureGlm {
         `n  }
         `n}"
 
-    $response = Invoke-RestMethod -SkipCertificateCheck -Uri $urlGLM -Method 'POST' -Headers $headers -Body $body
+    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+    $response = Invoke-RestMethod -Uri $urlGLM -Method 'POST' -Headers $headers -Body $body
     $response | ConvertTo-Json
     if ($null -eq $response) {
         Write-Error "failed to configure glm configuration" -ErrorAction Stop
@@ -237,7 +252,8 @@ function GlmRequestSend {
     `n  }
     `n}"
 
-    $response = Invoke-RestMethod -SkipCertificateCheck -Uri $urlGlmSend -Method 'POST' -Headers $headers -Body $body
+    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+    $response = Invoke-RestMethod -Uri $urlGlmSend -Method 'POST' -Headers $headers -Body $body
     $response | ConvertTo-Json
 #    Write-Host $response
 }
@@ -259,22 +275,27 @@ function WriteMemory {
     $url = -join($baseUrl, "/active-partition")
     $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
     $headers.Add("Authorization", -join("A10 ", $authorizationToken))
+    $headers.Add("Content-Type", "application/json")
 
-    $response = Invoke-RestMethod -SkipCertificateCheck -Uri $url -Method 'GET' -Headers $headers
+    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+    $response = Invoke-RestMethod -Uri $url -Method 'GET' -Headers $headers
     $partition = $response.'active-partition'.'partition-name'
 
     if ($null -eq $partition) {
         Write-Error "Failed to get partition name"
     } else {
         $urlMEM = -join($baseUrl, "/write/memory")
-        $headers.Add("Content-Type", "application/json")
+        $headers1 = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+        $headers1.Add("Authorization", -join("A10 ", $authorizationToken))
+        $headers1.Add("Content-Type", "application/json")
 
         $body = "{
         `n  `"memory`": {
         `n    `"partition`": `"$partition`"
         `n  }
         `n}"
-        $response = Invoke-RestMethod -SkipCertificateCheck -Uri $urlMEM -Method 'POST' -Headers $headers -Body $body
+        [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+        $response = Invoke-RestMethod -Uri $urlMEM -Method 'POST' -Headers $headers1 -Body $body
         if ($null -eq $response) {
             Write-Error "Failed to run write memory command"
         } else {
@@ -284,10 +305,12 @@ function WriteMemory {
 }
 
 $vthunderBaseUrl = -join("https://", $vThunderProcessingIP, "/axapi/v3")
-Write-Output "vthunderBaseUrl : " $vthunderBaseUrl
 
-$authorizationToken = GetAuthToken -baseUrl $vthunderBaseUrl
-Write-Output "authorization_token : " $authorizationToken
+$authorizationToken = GetAuthToken -baseUrl $vthunderBaseUrl -vThPass $vThPassword
+
+if ($authorizationToken -eq 401){
+    $authorizationToken = GetAuthToken -baseUrl $vthunderBaseUrl -vThPass $oldPassword
+}
 
 $applianceUUID = GetApplianceUuid -baseUrl $vthunderBaseUrl -authorizationToken $authorizationToken
 Write-Output "appliance_uuid : " $applianceUUID

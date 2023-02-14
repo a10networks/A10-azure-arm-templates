@@ -9,7 +9,7 @@
             "ip-mask":"/0",
             "ip-nexthop-ipv4": [
                 {
-                "ip-next-hop":"10.0.1.1"
+                "ip-next-hop":"10.0.2.1"
                 }
             ]
             }

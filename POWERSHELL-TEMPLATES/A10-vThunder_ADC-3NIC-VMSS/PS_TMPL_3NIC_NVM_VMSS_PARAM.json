@@ -72,13 +72,16 @@
         "value": "vth-lb1-bck-pool1"
      },
      "logAgentContainerName":{
-        "value": "vth-agent-cont"
+        "value": "vth-agent-contn"
      },
      "vmName": {
         "value": "vth-agent-ins1"
      },
      "vmSku":{
         "value":"Standard_B4ms"
-     }
+     },
+     "automationAccountName":{
+      "value": "vth-amt-acc"
+   }
   }
 }

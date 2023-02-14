@@ -42,10 +42,10 @@
       "value": "vth-inst2-mgmt-nic1"
     },
     "nic2Name_vm2": {
-      "value": "vth-inst2-mgmt-nic2"
+      "value": "vth-inst2-data-nic2"
     },
     "nic3Name_vm2": {
-      "value": "vth-inst2-mgmt-nic3"
+      "value": "vth-inst2-data-nic3"
     },
     "vm1MgmtIntfName": {
       "value": "vth-inst1-mgmt"

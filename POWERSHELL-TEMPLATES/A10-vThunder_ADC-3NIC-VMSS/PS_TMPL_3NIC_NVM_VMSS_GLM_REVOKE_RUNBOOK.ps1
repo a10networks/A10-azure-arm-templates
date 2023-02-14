@@ -84,16 +84,14 @@ function RevokeGLM {
     $revokeHeaders.Add("Content-Type", "application/json")
     $revokeHeaders.Add("X-User-Email", $username)
     $revokeHeaders.Add("X-User-Token", $glmToken)
-    $activeVthunder = $activationList[0] | ConvertFrom-Json -AsHashtable
+	$activeVthunder = $activationList[0] | ConvertFrom-Json
     foreach($vThunder in $activeVthunder){
         if ($vThunderRevokeLicenseUUID -eq $vThunder.appliance_uuid){
             $revokeUrl = $hostName+'activations/revoke.json'
-            Write-Output $vThunderRevokeLicenseUUID
-			Write-Output $revokeUrl
             $activeLicId = $vThunder.id
             $body = "{`"license-id`": `"$licenseId`",`"ids`": [`"$activeLicId`"]}"
             Try {
-                Invoke-RestMethod $revokeUrl -Method 'PATCH' -Headers $revokeHeaders -Body $body -SkipHttpErrorCheck
+                Invoke-RestMethod $revokeUrl -Method 'PATCH' -Headers $revokeHeaders -Body $body
             } Catch {
                 $_.Exception.Response
             }
@@ -103,7 +101,6 @@ function RevokeGLM {
 
 # Get glm token
 $glmToken = LoginGLM
-Write-Output $glmToken.user_token
 
 # Get activated vthunders
 $activationList = LicenseActivations -glmToken $glmToken.user_token

@@ -51,7 +51,7 @@
       "value": "10.0.2.0/24"
     },
     "eth1PrivateAddress": {
-      "value": "10.0.2.5"
+      "value": "10.0.2.4"
     },
     "publicIPAddressName": {
       "value": "vth-inst1-mgmt-nic1-ip"

@@ -1,7 +1,7 @@
 <#
 .PARAMETER
 	1.vThunderProcessingIP
-	2.agentPrivateIP
+	2. agentPrivateIP
 .Description
     Script to configure a acos event.
 Functions:
@@ -22,25 +22,9 @@ param (
      [String] $agentPrivateIP
 )
 
-# Get resource config from variables
-$azureAutoScaleResources = Get-AutomationVariable -Name azureAutoScaleResources
-$azureAutoScaleResources = $azureAutoScaleResources | ConvertFrom-Json
-
-$vThUsername = Get-AutomationVariable -Name vThUsername
-$vThPassword = Get-AutomationVariable -Name vThPassword
-
-if ($null -eq $azureAutoScaleResources) {
-    Write-Error "azureAutoScaleResources data is missing." -ErrorAction Stop
-}
-
-# Authenticate with Azure Portal
-$appId = $azureAutoScaleResources.appId
-$secret = Get-AutomationVariable -Name clientSecret
-$tenantId = $azureAutoScaleResources.tenantId
-
-$secureStringPwd = $secret | ConvertTo-SecureString -AsPlainText -Force
-$pscredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $appId, $secureStringPwd
-Connect-AzAccount -ServicePrincipal -Credential $pscredential -Tenant $tenantId
+$vThUserName = Get-AutomationVariable -Name vThUserName
+$vThPassword = Get-AutomationVariable -Name vThCurrentPassword
+$oldPassword = Get-AutomationVariable -Name vThDefaultPassword
 
 function GetAuthToken {
     <#
@@ -53,7 +37,8 @@ function GetAuthToken {
         AXAPI: /axapi/v3/auth
     #>
     param (
-        $baseUrl
+        $baseUrl,
+        $vThPass
     )
     # AXAPI Auth url
     $url = -join($baseUrl, "/auth")
@@ -63,16 +48,29 @@ function GetAuthToken {
     # AXAPI Auth url json body
     $body = "{
     `n    `"credentials`": {
-    `n        `"username`": `"$vThUsername`",
-    `n        `"password`": `"$vThPassword`"
+    `n        `"username`": `"$vThUserName`",
+    `n        `"password`": `"$vThPass`"
     `n    }
     `n}"
-    # Invoke Auth url
-    $response = Invoke-RestMethod -SkipCertificateCheck -Uri $url -Method 'POST' -Headers $headers -Body $body
-    # fetch Authorization token from response
-    $authorizationToken = $Response.authresponse.signature
+    
+    $maxRetry = 5
+    $currentRetry = 0
+    while ($currentRetry -ne $maxRetry) {
+        # Invoke Auth url
+        [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+        $response = Invoke-RestMethod -Uri $url -Method 'POST' -Headers $headers -Body $body
+        # fetch Authorization token from response
+        $authorizationToken = $response.authresponse.signature
+        if ($null -eq $authorizationToken) {
+            Write-Error "Retry $currentRetry to get authorization token"
+            $currentRetry++
+            start-sleep -s 60
+        } else {
+            break
+        }
+    }
     if ($null -eq $authorizationToken) {
-        Write-Error "Falied to get authorization token from AXAPI" -ErrorAction Stop
+            Write-Error "Falied to get authorization token from AXAPI" -ErrorAction Stop
     }
     return $authorizationToken
 }
@@ -110,9 +108,9 @@ function AcosEventsMessageSelector {
     `n    ]
     `n  }
     `n}"
-
+    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
     $url = -join($baseUrl, "/acos-events/message-selector")
-    $response = Invoke-RestMethod -SkipCertificateCheck $url -Method 'POST' -Headers $headers -Body $body
+    $response = Invoke-RestMethod $url -Method 'POST' -Headers $headers -Body $body
     $response | ConvertTo-Json
 }
 
@@ -151,9 +149,10 @@ function AcosEventsLogServer {
     `n    ]
     `n  }
     `n}"
+    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
 
     $url = -join($baseUrl, "/acos-events/log-server")
-    $response = Invoke-RestMethod -SkipCertificateCheck $url -Method 'POST' -Headers $headers -Body $body
+    $response = Invoke-RestMethod $url -Method 'POST' -Headers $headers -Body $body
     $response | ConvertTo-Json
 }
 
@@ -193,9 +192,9 @@ function AcosEventsCollectorGroup {
     `n    ]
     `n  }
     `n}"
-
+    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
     $url = -join($baseUrl, "/acos-events/collector-group")
-    $response = Invoke-RestMethod -SkipCertificateCheck $url -Method 'POST' -Headers $headers -Body $body
+    $response = Invoke-RestMethod $url -Method 'POST' -Headers $headers -Body $body
     $response | ConvertTo-Json
 
 }
@@ -235,9 +234,9 @@ function AcosEventsTemplate {
     `n    ]
     `n  }
     `n}"
-
+    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
     $url = -join($baseUrl, "/acos-events/template")
-    $response = Invoke-RestMethod -SkipCertificateCheck $url -Method 'POST' -Headers $headers -Body $body
+    $response = Invoke-RestMethod $url -Method 'POST' -Headers $headers -Body $body
     $response | ConvertTo-Json
 
 }
@@ -267,9 +266,9 @@ function AcosEventsActiveTemplate {
     `n    `"name`": `"fluentbitRemoteServer`"
     `n  }
     `n}"
-
+    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
     $url = -join($baseUrl, "/acos-events/active-template")
-    $response = Invoke-RestMethod -SkipCertificateCheck $url -Method 'POST' -Headers $headers -Body $body
+    $response = Invoke-RestMethod $url -Method 'POST' -Headers $headers -Body $body
     $response | ConvertTo-Json
 
 }
@@ -292,22 +291,27 @@ function WriteMemory {
     $url = -join($baseUrl, "/active-partition")
     $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
     $headers.Add("Authorization", -join("A10 ", $authorizationToken))
-
-    $response = Invoke-RestMethod -SkipCertificateCheck -Uri $url -Method 'GET' -Headers $headers
+    $headers.Add("Content-Type", "application/json")
+    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+    $response = Invoke-RestMethod -Uri $url -Method 'GET' -Headers $headers
     $partition = $response.'active-partition'.'partition-name'
 
     if ($null -eq $partition) {
         Write-Error "Failed to get partition name"
     } else {
         $url = -join($baseUrl, "/write/memory")
-        $headers.Add("Content-Type", "application/json")
 
         $body = "{
         `n  `"memory`": {
         `n    `"partition`": `"$partition`"
         `n  }
         `n}"
-        $response = Invoke-RestMethod -SkipCertificateCheck -Uri $url -Method 'POST' -Headers $headers -Body $body
+
+        $headers1 = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+        $headers1.Add("Authorization", -join("A10 ", $authorizationToken))
+        $headers1.Add("Content-Type", "application/json")
+        [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+        $response = Invoke-RestMethod -Uri $url -Method 'POST' -Headers $headers1 -Body $body
         if ($null -eq $response) {
             Write-Error "Failed to run write memory command"
         } else {
@@ -318,7 +322,11 @@ function WriteMemory {
 
 $vthunderBaseUrl = -join("https://", $vThunderProcessingIP, "/axapi/v3")
 
-$authorizationToken = GetAuthToken -baseUrl $vthunderBaseUrl
+$authorizationToken = GetAuthToken -baseUrl $vthunderBaseUrl -vThPass $vThPassword
+
+if ($authorizationToken -eq 401){
+    $authorizationToken = GetAuthToken -baseUrl $vthunderBaseUrl -vThPass $oldPassword
+}
 
 AcosEventsMessageSelector -baseUrl $vthunderBaseUrl -authorizationToken $authorizationToken
 

@@ -52,9 +52,7 @@ Write-Host $data1subnet
 $vnet = New-AzVirtualNetwork -ResourceGroupName $resourceGroup -Location $location -Name $vnet -AddressPrefix $ParamData.parameters.addressPrefixValue.value -Subnet $mgmtsubnet,$data1subnet
 
 # Create a public IP address and specify a DNS name
-# $publicIp = New-AzPublicIpAddress -Name $publicIpName -ResourceGroupName $rgName -AllocationMethod Static -DomainNameLabel $dnsPrefix -Location $location
-# $mgmtpip = New-AzPublicIpAddress -ResourceGroupName $resourceGroup -Location $location -AllocationMethod Dynamic -IdleTimeoutInMinutes 4 -Name "myip$(Get-Random)"
-$mgmtpip = New-AzPublicIpAddress -Name $ParamData.parameters.publicIPAddressName.value -ResourceGroupName $resourceGroup -Location $location -AllocationMethod Dynamic -IdleTimeoutInMinutes 4
+$mgmtpip = New-AzPublicIpAddress -ResourceGroupName $resourceGroup -Location $location -AllocationMethod Dynamic -IdleTimeoutInMinutes 4 -Name "myip$(Get-Random)"
 $data1pip = New-AzPublicIpAddress -ResourceGroupName $resourceGroup -Location $location -AllocationMethod Dynamic -IdleTimeoutInMinutes 4 -Name "myip$(Get-Random)"
 
 
@@ -81,7 +79,7 @@ $mgmtnic = New-AzNetworkInterface -ResourceGroupName $resourceGroup -Name $Param
 Write-Host $mgmtsubnet
 Write-Host $mgmtnic
 $data1subnet = $vnet.Subnets | Where-Object{ $_.Name -eq 'data1subnet' }
-$data1nic = New-AzNetworkInterface -ResourceGroupName $resourceGroup -Name $ParamData.parameters.nic2Name.value -Location $location -SubnetId $data1subnet.Id
+$data1nic = New-AzNetworkInterface -ResourceGroupName $resourceGroup -Name $ParamData.parameters.nic2Name.value -Location $location -SubnetId $data1subnet.Id -PrivateIpAddress $ParamData.parameters.eth1PrivateAddress.value
 Write-Host $data1subnet
 Write-Host $data1nic
 # Define a credential object
@@ -95,7 +93,6 @@ Write-Host $cred
 
 # Start building the VM configuration
 $vmConfig = New-AzVMConfig -VMName $vmName -VMSize $vmSize
-
 #Create the rest of configuration 
 $vmConfig = Set-AzVMOperatingSystem -VM $vmConfig -Linux -ComputerName $vmName -Credential $cred
 $vmConfig = Set-AzVMSourceImage -VM $vmConfig -PublisherName $publisher_name -Offer $product_name -skus $sku_name -Version "latest"

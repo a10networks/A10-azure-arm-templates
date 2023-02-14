@@ -2,7 +2,7 @@
     "parameters": {
         "slbServerHostOrDomain": {
           "server-name": "s1",
-          "host": "10.0.3.7",
+          "host": "10.0.3.5",
           "metadata": {
             "description": "SLB server host/fqdn-name for. To use domain name replace host with fqdn-name and ip address with domain name"
           }
@@ -96,6 +96,8 @@
           "Path": "<absolute path of ssl certificate>",
           "File": "<ssl-certificate-name>",
           "CertificationType": "pem"
-        }
+        },
+        "resourceGroupName": "vth-rg1",
+        "vThUsername": "admin"
     }
   }  

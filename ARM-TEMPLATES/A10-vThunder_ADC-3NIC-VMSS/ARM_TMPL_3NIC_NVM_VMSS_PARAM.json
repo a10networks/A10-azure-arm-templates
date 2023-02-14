@@ -85,6 +85,12 @@
       },
       "logAgentContainerName": {
          "value": "vth-agent-cont"
+      },
+      "automationAccountName": {
+         "value": "vth-amt-acc"
+      },
+      "artifactsLocation": {
+         "value": "https://raw.githubusercontent.com/a10networks/A10-azure-arm-templates/release/v1.1.0/ARM-TEMPLATES/A10-vThunder_ADC-3NIC-VMSS/ARM_TMPL_3NIC_NVM_VMSS_1.json"
       }
    }
 }
