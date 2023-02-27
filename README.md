@@ -21,13 +21,15 @@ like resource group, VM name, network etc before pasting the script’s content 
 For more information on using this option please refer to Azure documentation: https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-deploy-portal
 
 ## A10’s ARM Template Information
-A10’s ARM templates listed here are for deploying vThunder ADC (Application Delivery Controller) in different design and configuration namely:
+The A10 ARM templates listed here are specifically designed for deploying vThunder Application Delivery Controller (ADC) in different configurations and designs.
 
-- Powershell templates can be found under ./POWERSHELL-TEMPLATES.
+- PowerShell templates can be found under ./POWERSHELL-TEMPLATES.
 - ARM templates can be found under ./ARM-TEMPLATES.
 
-For more detailed documentation please refer offline documentation within repository or online documentation :
-https://documentation.a10networks.com/IaC/ARM_Powershell/index.html
+For more detailed documentation, refer to the offline documentation available within the repository or the online documentation available at:
+
+- ARM : https://documentation.a10networks.com/IaC/ARM_Powershell/1_1_0/html/ARM_TEMP_Responsive_HTML5/Default.htm
+- PS  : https://documentation.a10networks.com/IaC/ARM_Powershell/1_1_0/html/PS_TEMP_Responsive_HTML5/Default.htm
 
 ## A10’s vThunder Support Information
 Below listed A10’s vThunder vADC (Application Delivery Controller) are tested and supported.
