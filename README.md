@@ -29,7 +29,7 @@ The A10 ARM templates listed here are specifically designed for deploying vThund
 For more detailed documentation, refer to the offline documentation available within the repository or the online documentation available at:
 
 - ARM : https://documentation.a10networks.com/IaC/ARM_Powershell/1_0_0/html/ARM_TEMP_Responsive_HTML5/Default.htm
-- PS  : https://documentation.a10networks.com/IaC/ARM_Powershell/1_0_0/html/PS_TEMP_Responsive_HTML5/Default.htm
+- PS  : https://documentation.a10networks.com/IaC/ARM_Powershell/1_1_0/html/PS_TEMP_Responsive_HTML5/Default.htm
 
 ## A10’s vThunder Support Information
 Below listed A10’s vThunder vADC (Application Delivery Controller) are tested and supported.
