@@ -6,8 +6,15 @@ The pre-requisite to using this option is to download the scripts first by the u
 like resource group, VM name, network etc before pasting the script’s content on either Azure PowerShell or Azure CLI. 
 For more information on using this option please refer to Azure documentation: https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-deploy-portal
 
+##Global License Manager (GLM)
+For all A10 licenses, GLM (Global License Manager) is the authoritative service. 
+All A10 products conform with license and licensing policies dictated by GLM. 
+GLM is available at https://glm.a10networks.com. 
+Default License Manager for HC is set to GLM. 
+User can change this in Controller scope by logging in as Super-admin.
+
 # A10’s Azure Powershell Template Information
-A10’s Azure Powershell templates listed here are for deploying vThunder ADC (Application Delivery Controller) in different design and configuration namely:
+The A10 Powershell templates listed here are specifically designed for deploying vThunder Application Delivery Controller (ADC) in different configurations and designs.
 
 - **Deploying vThunder ADC in Azure - 2 NICs - 1 VM (1 Management + 1 Data)**<br>
       - *BYOL(Bring Your Own License)*<br>
@@ -49,8 +56,9 @@ A10’s Azure Powershell templates listed here are for deploying vThunder ADC (A
       - *Log Analysis using Azure Log Analytics integration*<br>
       - *Azure Application Insight integration*<br>
 
-For more detailed documentation please refer offline documentation within repository or online documentation :
-https://documentation.a10networks.com/IaC/ARM_Powershell/index.html
+For more detailed documentation, refer to the offline documentation available within the repository or the online documentation available at:
+
+- PS  : https://documentation.a10networks.com/IaC/ARM_Powershell/1_1_0/html/PS_TEMP_Responsive_HTML5/Default.htm
 
 ## A10’s vThunder Support Information
 Below listed A10’s vThunder vADC (Application Delivery Controller) are tested and supported.
