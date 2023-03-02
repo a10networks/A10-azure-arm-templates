@@ -47,7 +47,7 @@ An internal repository for developing Azure PowerShell templates.
 	   https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.2
 	   
 	4. Install Azure az module
-	   https://www.powershellgallery.com/packages/Az/8.3.0
+	   https://www.powershellgallery.com/packages/Az/8.2.0
 	   
 	5. Set execution policy to Unrestricted (only for windows machine)
 	   https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.2#managing-the-execution-policy-with-powershell

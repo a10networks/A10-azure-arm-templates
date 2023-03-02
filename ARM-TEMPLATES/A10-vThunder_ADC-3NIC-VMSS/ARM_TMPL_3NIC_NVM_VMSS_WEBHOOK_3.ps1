@@ -14,6 +14,7 @@ if ($null -eq $resData) {
 $resourceGroupName = $resData.azureAutoScaleResources.resourceGroupName
 $automationAccountName = $resData.azureAutoScaleResources.automationAccountName
 $webHookName = "master-webhook"
+
 # Authenticate with Azure Portal
 Login-AzAccount
 
@@ -57,5 +58,8 @@ Write-Host $newValue
 Set-AzAutomationVariable -Name "azureAutoScaleResources" -Value $newValue -AutomationAccountName $automationAccountName -ResourceGroupName $resourceGroupName -Encrypted $False
 
 # Run master runbook
-$response = Invoke-WebRequest -Method Post -Uri $webHookURL.WebhookURI -UseBasicParsing
+$body = @{"operation"="Scale Out"
+  "context"=@{"resourceName"=$resData.azureAutoScaleResources.vThunderScaleSetName}}
+$body = $body | ConvertTo-Json
+$response = Invoke-WebRequest -Method Post -Uri $webHookURL.WebhookURI -UseBasicParsing -Body $body
 Write-Host $response
