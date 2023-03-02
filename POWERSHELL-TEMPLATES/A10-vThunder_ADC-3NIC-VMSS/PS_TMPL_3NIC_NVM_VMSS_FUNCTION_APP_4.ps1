@@ -10,15 +10,15 @@
 # Authenticate with Azure Portal
 Login-AzAccount
 
-# Get config data from ARM_TMPL_3NIC_NVM_VMSS_FUNCTION_APP_PARAM
-$functionParamData = Get-Content -Raw -Path ARM_TMPL_3NIC_NVM_VMSS_FUNCTION_APP_PARAM.json | ConvertFrom-Json -AsHashtable
+# Get config data from PS_TMPL_3NIC_NVM_VMSS_FUNCTION_APP_PARAM
+$functionParamData = Get-Content -Raw -Path PS_TMPL_3NIC_NVM_VMSS_FUNCTION_APP_PARAM.json | ConvertFrom-Json -AsHashtable
 
 if ($null -eq $functionParamData) {
     Write-Error "ParamData data is missing." -ErrorAction Stop
 }
 
-# Get config data from ARM_TMPL_3NIC_NVM_VMSS_RUNBOOK_VARIABLES.json
-$azureParamData = Get-Content -Raw -Path ARM_TMPL_3NIC_NVM_VMSS_RUNBOOK_VARIABLES.json | ConvertFrom-Json -AsHashtable
+# Get config data from PS_TMPL_3NIC_NVM_VMSS_RUNBOOK_VARIABLES.json
+$azureParamData = Get-Content -Raw -Path PS_TMPL_3NIC_NVM_VMSS_RUNBOOK_VARIABLES.json | ConvertFrom-Json -AsHashtable
 
 if ($null -eq $azureParamData) {
     Write-Error "azureParamData data is missing." -ErrorAction Stop
