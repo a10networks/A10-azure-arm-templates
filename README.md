@@ -33,8 +33,8 @@ For more detailed documentation, refer to the offline documentation available wi
 
 ## Change Password Scripts
 Run any of following script to change password of thunder.
-- python : \scripts\Change_Password_Setup.ps1
-- Powershell : \scripts\Change_Password_Setup.py
+- PowerShell : \scripts\Change_Password_Setup.ps1
+- Python : \scripts\Change_Password_Setup.py
 
 ## A10’s vThunder Support Information
 Below listed A10’s vThunder vADC (Application Delivery Controller) are tested and supported.
