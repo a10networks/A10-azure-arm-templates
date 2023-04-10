@@ -38,6 +38,11 @@ Below listed A10’s vThunder vADC (Application Delivery Controller) are tested 
 - 64-bit Advanced Core OS (ACOS) version 5.2.1-p6, build 74.
 - 64-bit Advanced Core OS (ACOS) version 6.0.0 build 419.
 
+## Change Password Scripts
+Run any of following script to change password of thunder.
+- python : \scripts\Change_Password_Setup.ps1
+- Powershell : \scripts\Change_Password_Setup.py
+
 ## Release Logs Information
 - Automated script to change password after installation.
 - Automated scripts to install and configure runbooks.
