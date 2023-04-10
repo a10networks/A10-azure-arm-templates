@@ -31,17 +31,17 @@ For more detailed documentation, refer to the offline documentation available wi
 - ARM : https://documentation.a10networks.com/IaC/ARM_Powershell/1_1_0/html/ARM_TEMP_Responsive_HTML5/Default.htm
 - PS  : https://documentation.a10networks.com/IaC/ARM_Powershell/1_1_0/html/PS_TEMP_Responsive_HTML5/Default.htm
 
+## Change Password Scripts
+Run any of following script to change password of thunder.
+- python : \scripts\Change_Password_Setup.ps1
+- Powershell : \scripts\Change_Password_Setup.py
+
 ## A10’s vThunder Support Information
 Below listed A10’s vThunder vADC (Application Delivery Controller) are tested and supported.
 - 64-bit Advanced Core OS (ACOS) version 5.2.0, build 155.
 - 64-bit Advanced Core OS (ACOS) version 5.2.1-p5, build 114.
 - 64-bit Advanced Core OS (ACOS) version 5.2.1-p6, build 74.
 - 64-bit Advanced Core OS (ACOS) version 6.0.0 build 419.
-
-## Change Password Scripts
-Run any of following script to change password of thunder.
-- python : \scripts\Change_Password_Setup.ps1
-- Powershell : \scripts\Change_Password_Setup.py
 
 ## Release Logs Information
 - Automated script to change password after installation.
