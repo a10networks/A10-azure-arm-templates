@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUsername": {
+      "value": "vth-user"
+    },
+    "adminPassword": {
+      "value": "vth-Password"
+    },
+    "virtual_network": {
+      "value": "<existing virtual network name>"
+    },
+    "vmName": {
+      "value": "vth-inst1"
+    },
+    "vmSize": {
+      "value": "Standard_D8s_v3"
+    },
+    "vThunderImage": {
+      "value":"a10-vthunder-adc-601-byol"
+    },
+    "publisherName": {
+      "value": "a10networks"
+    },
+    "productName": {
+      "value": "a10-vthunder-adc-521"
+    },
+    "nic1Name": {
+      "value": "vth-inst1-mgmt-nic"
+    },
+    "nic2Name": {
+      "value": "vth-inst1-data-nic"
+    },
+    "subnet1Name": {
+      "value": "<existing subnet mgmt name>"
+    },
+    "subnet2Name": {
+      "value": "<existing subnet data name>"
+    },
+    "publicIPAddressName": {
+      "value": "<existing vm1 publicipaddress name>"
+    },
+    "networkSecurityGroupName": {
+      "value": "<existing vm1 network security group>"
+    },
+    "enableAcceleratedNetworking": {
+      "value": false
+    },
+    "enableIPForwarding": {
+    "value": false
+    },
+    "ResourceGroupName": {
+      "value": "<existing vnet nsg publicIP resourcegroup>"
+    }
+  }
+}

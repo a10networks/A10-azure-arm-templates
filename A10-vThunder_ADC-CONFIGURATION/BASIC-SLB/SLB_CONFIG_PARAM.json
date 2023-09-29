@@ -1,0 +1,166 @@
+{
+  "parameters": {
+    "vThUsername": "admin",
+    "dataInterfaceCount": 2,
+    "hostIPAddress": {
+          "vThunderIP": [
+            "<vThunder1_Public_IP>",
+            "<vThunder2_Public_IP>"
+          ]
+      },
+    "templateHTTP": 0,
+    "templatePersistCookie": 0,  
+    "slbServerHostOrDomain": {
+      "value": [
+        {
+          "server-name": "s1",
+          "host": "10.0.3.5",
+          "metadata": {
+            "description": "SLB server host/fqdn-name for. To use domain name replace host with fqdn-name and ip address with domain name"
+          }
+        },
+        {
+          "server-name": "s2",
+          "host": "10.0.3.7",
+          "metadata": {
+            "description": "SLB server host/fqdn-name for. To use domain name replace host with fqdn-name and ip address with domain name"
+          }
+        }
+      ]
+    },
+      "slbServerPortList": {
+        "value": [
+          {
+            "port-number": 53,
+            "protocol": "udp",
+            "health-check-disable":0
+          },
+          {
+            "port-number": 80,
+            "protocol": "tcp",
+            "health-check-disable":0
+          },
+          {
+            "port-number": 443,
+            "protocol": "tcp",
+            "health-check-disable":0
+          }
+        ]
+      },
+      "serviceGroupList": {
+        "value": [
+            {
+              "name":"sg443",
+              "protocol":"tcp",
+              "health-check-disable":0,
+              "member-list": [
+                {
+                  "name":"s1",
+                  "port":443
+                },
+                {
+                  "name":"s2",
+                  "port":443
+                }
+              ]
+            },
+            {
+              "name":"sg53",
+              "protocol":"udp",
+              "health-check-disable":0,
+              "member-list": [
+                {
+                  "name":"s1",
+                  "port":53
+                },
+                {
+                  "name":"s2",
+                  "port":53
+                }
+              ]
+            },
+              {
+              "name":"sg80",
+              "protocol":"tcp",
+              "health-check-disable":0,
+              "member-list": [
+                {
+                  "name":"s1",
+                  "port":80
+                },
+                {
+                  "name":"s2",
+                  "port":80
+                }
+              ]
+            }
+          ]
+      },
+      "httpList": {
+        "value": [
+          {
+            "name":"<host-switching-template-name>",
+            "host-switching": [
+              {
+                "host-switching-type":"contains",
+                "host-match-string":"s1",
+                "host-service-group":"sg80"
+              }
+            ]
+          },
+          {
+            "name":"<url-switching-template-name>",
+            "url-switching": [
+              {
+                "url-switching-type":"regex-match",
+                "url-match-string":"s1",
+                "url-service-group":"sg80"
+              }
+            ]
+          }
+        ]
+      },
+      "cookieList": {
+        "value": [
+          {
+            "encrypt-level": 0,
+            "expire": 60,
+            "match-type": 1,
+            "name": "<persist-cookie-template-name>",
+            "cookie-name": "<cookie-name>",
+            "service-group": 1
+          }
+        ]
+      },
+      "virtualServerList": {
+        "virtual-server-name": "vip",
+        "ip-address": "10.0.2.4",
+        "metadata": {
+          "description": "specify ethernet 1 primary private ip address in case of 2nic's or ethernet1 secondary private ip address in case of 3nic's"
+        },
+        "value": [
+          {
+            "port-number":53,
+            "protocol":"udp",
+            "ha-conn-mirror":0,
+            "auto":1,
+            "service-group":"sg53"
+          },
+          {
+            "port-number":80,
+            "protocol":"http",
+            "auto":1,
+            "service-group":"sg80",
+            "template-http":"<host-switching-template-name or url-switching-template-name>",
+            "template-persist-cookie":"<persist-cookie-template-name>"
+          },
+          {
+            "port-number":443,
+            "protocol":"https",
+            "auto":1,
+            "service-group":"sg443"
+          }
+        ]
+    }
+  }
+}  

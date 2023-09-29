@@ -1,0 +1,919 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "Virtual Machine1 Name": {
+            "type": "string",
+            "defaultValue": "vth-inst1",
+            "metadata": {
+                "description": "Choose the virtual machine name for vThunder. ARM template will create a new VM with the provided name. For eg vth-inst1. Users can login with the default vThunder provided user and password. For more information please refer https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell"
+            }
+        },
+        "Virtual Machine2 Name": {
+            "type": "string",
+            "defaultValue": "vth-inst2",
+            "metadata": {
+                "description": "Choose the virtual machine name for vThunder. ARM template will create a new VM with the provided name. For eg vth-inst2. Users can login with the default vThunder provided user and password. For more information please refer https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell"
+            }
+        },
+        "Virtual Machine3 Name": {
+            "type": "string",
+            "defaultValue": "vth-inst3",
+            "metadata": {
+                "description": "Choose the virtual machine name for vThunder. ARM template will create a new VM with the provided name. For eg vth-inst3. Users can login with the default vThunder provided user and password. For more information please refer https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell"
+            }
+        },
+        "Size": {
+            "defaultValue": "Standard_D8s_v3",
+            "metadata": {
+                "description": "Choose from available instance/compute type supported for vThunder. The default instance type is Standard_D8s_v3 which contains 8 vCPU and 32 GiB memory. vThunder requires a minimum of 4 vCPU and 32 GiB memory, For more information about different instance types please refer to https://azure.microsoft.com/en-in/pricing/details/virtual-machines/series/"
+            },
+            "type": "string"
+        },
+        "Image":{
+            "type":"string",
+            "defaultValue": "a10-vthunder-adc-601-byol",
+            "metadata": {
+                "description":"Choose the A10 vThunder image that is right for you and your customers. A10 Thunder ADC for Advanced Load Balancing - BYOL is set as a default Image ID. Find more types of thunder images available with different capacities. Go to Azure Portal -> Marketplace -> Search for 'vThunder' -> Select Image -> Usage Information + Support -> Plan ID is the image ID. For more Thunder documentation, please refer to https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell"
+                }
+        },
+        "Publisher":{
+            "type":"string",
+            "defaultValue": "a10networks",
+            "metadata": {
+                "description":"Choose the A10 vThunder publisher that is right for you and your customers. A10 Thunder ADC for Advanced Load Balancing - BYOL is set as a default Publisher ID. Find more types of thunder images available with different capacities. Go to Azure Portal -> Marketplace -> Search for 'vThunder' -> Select Image -> Usage Information + Support -> Publisher ID. For more Thunder documentation, please refer to https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell."
+            }
+        },
+        "Product":{
+            "type":"string",
+            "defaultValue": "a10-vthunder-adc-521",
+            "metadata": {
+                "description":"Choose the A10 vThunder product that is right for you and your customers. A10 Thunder ADC for Advanced Load Balancing - BYOL is set as a default Product ID. Find more types of thunder images available with different capacities. Go to Azure Portal -> Marketplace -> Search for 'vThunder' -> Select Image -> Usage Information + Support -> Product ID. For more Thunder documentation, please refer to https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell."
+            }
+        },
+        "ResourceGroup": {
+            "type": "string",
+            "defaultValue": "vth-rg1",
+            "metadata": {
+                "description": "Choose the resource group name where virtual network, security group and public IP address are already created. This ARM template will not create a new virtual network, security group and public IP address. For eg vth-rg1"
+            }
+        },
+        "Virtual Network":{
+            "type":"string",
+            "defaultValue": "vth-vnet",
+            "metadata": {
+                "description":"Choose an existing virtual network name for virtual machines. This ARM template will not create a new virtual network. For eg vth-vnet."
+            }
+        },
+        "SubnetManagement": {
+            "type": "string",
+            "defaultValue": "subnet-mgmt",
+            "metadata": {
+                "description": "Choose an existing subnet name that is available within a selected virtual network for management traffic inward to vThunder. This ARM template will not create a new subnet. For eg subnet-mgmt."
+            }	
+        },	
+        "SubnetDataIn": {	
+            "type": "string",
+            "defaultValue": "subnet-data-in",
+            "metadata": {	
+                "description": "Choose an existing subnet name that is available within a selected virtual network for data inward traffic to vThunder. This ARM template will not create a new subnet. For eg subnet-data-in."
+            }
+        },
+        "SubnetDataOut": {
+            "type": "string",
+            "defaultValue": "subnet-data-out",
+            "metadata": {
+                "description": "Choose an existing subnet name that is available within a selected virtual network for data outward traffic from vThunder. This ARM template will not create a new subnet. For eg subnet-data-out."
+            }
+        },
+        "NIC Management VM1": {
+            "type": "string",
+            "defaultValue": "vth-inst1-mgmt-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for management traffic. This ARM template will create a new network interface card for a virtual machine 1. For eg vth-inst1-mgmt-nic."
+            }
+        },
+        "NIC DataIn VM1": {
+            "type": "string",
+            "defaultValue": "vth-inst1-datain-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for datain traffic. This ARM template will create a new network interface card for a virtual machine 1. For eg vth-inst1-datain-nic"
+            }
+        },
+        "NIC DataOut VM1": {
+            "type": "string",
+            "defaultValue": "vth-inst1-dataout-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for dataout traffic. This ARM template will create a new network interface card for a virtual machine 1. For eg vth-inst1-dataout-nic"
+            }
+        },
+        "Public IP Name VM1": {
+            "type": "string",
+            "defaultValue": "vth-inst1-mgmt-ip",
+            "metadata": {
+                "description": "Choose an existing public IP name for management traffic. This ARM template will not create a new public IP address for a virtual machine 1. For eg vth-inst1-mgmt-ip."
+            }
+        },
+        "Secondary Public IP Name VM1": {
+            "type": "string",
+            "defaultValue": "vth-inst11-datain-ip",
+            "metadata": {
+                "description": "Choose an existing secondary public IP name for DataIn traffic. This ARM template will not create a new secondary public IP address for virtual machine 1. For eg vth-inst11-datain-ip."
+            }
+        },
+        "NIC Management VM2": {
+            "type": "string",
+            "defaultValue": "vth-inst2-mgmt-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for management traffic. This ARM template will create a new network interface card for virtual machine 2. For eg vth-inst2-mgmt-nic"
+            }
+        },
+        "NIC DataIn VM2": {
+            "type": "string",
+            "defaultValue": "vth-inst2-datain-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for datain traffic. This ARM template will create a new network interface card for virtual machine 2. For eg vth-inst2-datain-nic"
+            }
+        },
+        "NIC DataOut VM2": {
+            "type": "string",
+            "defaultValue": "vth-inst2-dataout-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for dataout traffic. This ARM template will create a new network interface card for virtual machine 2. For eg vth-inst2-dataout-nic"
+            }
+        },
+        "Public IP Name VM2": {
+            "type": "string",
+            "defaultValue": "vth-inst2-mgmt-ip",
+            "metadata": {
+                "description": "Choose an existing public IP name for management traffic. This ARM template will not create a new public IP address for virtual machine 2. For eg vth-inst2-mgmt-ip."
+            }
+        },
+        "Secondary Public IP Name VM2": {
+            "type": "string",
+            "defaultValue": "vth-inst21-datain-ip",
+            "metadata": {
+                "description": "Choose an existing secondary public IP name for datain traffic. This ARM template will not create a new secondary public IP address for virtual machine 2. For eg vth-inst21-datain-ip."
+            }
+        }, 
+        "NIC Management VM3": {
+            "type": "string",
+            "defaultValue": "vth-inst3-mgmt-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for management traffic. This ARM template will create a new network interface card for virtual machine 3. For eg vth-inst3-mgmt-nic"
+            }
+        },
+        "NIC DataIn VM3": {
+            "type": "string",
+            "defaultValue": "vth-inst3-datain-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for datain traffic. This ARM template will create a new network interface card for virtual machine 3. For eg vth-inst3-datain-nic"
+            }
+        },
+        "NIC DataOut VM3": {
+            "type": "string",
+            "defaultValue": "vth-inst3-dataout-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for dataout traffic. This ARM template will create a new network interface card for virtual machine 3. For eg vth-inst3-dataout-nic"
+            }
+        },
+        "Public IP Name VM3": {
+            "type": "string",
+            "defaultValue": "vth-inst3-mgmt-ip",
+            "metadata": {
+                "description": "Choose an existing public IP name for management traffic. This ARM template will not create a new public IP address for virtual machine 3. For eg vth-inst3-mgmt-ip."
+            }
+        },
+        "Secondary Public IP Name VM3": {
+            "type": "string",
+            "defaultValue": "vth-inst31-datain-ip",
+            "metadata": {
+                "description": "Choose an existing secondary public IP name for datain traffic. This ARM template will not create a new secondary public IP address for virtual machine 3. For eg vth-inst31-datain-ip."
+            }
+        }
+    },
+    "variables": {
+        "apiVersion": "2015-06-15",
+        "nic1Namevm1": "[parameters('NIC Management VM1')]",
+        "nic2Namevm1": "[parameters('NIC DataIn VM1')]",
+        "nic3Namevm1": "[parameters('NIC DataOut VM1')]",
+        "nic1Namevm2": "[parameters('NIC Management VM2')]",
+        "nic2Namevm2": "[parameters('NIC DataIn VM2')]",
+        "nic3Namevm2": "[parameters('NIC DataOut VM2')]",
+        "nic1namevm3": "[parameters('NIC Management VM3')]",
+        "nic2namevm3": "[parameters('NIC DataIn VM3')]",
+        "nic3namevm3": "[parameters('NIC DataOut VM3')]",
+        "Username" : "vth-user",
+        "Password": "vth-Password",
+        "NSGManagement": "vth-inst1-nsg",
+        "NSGDataIn": "vth-inst2-nsg",
+        "NSGDataOut": "vth-inst3-nsg",
+        "location": "[resourceGroup().location]",
+        "vnetName": "[parameters('Virtual Network')]",
+        "vnetId": "[resourceId(parameters('ResourceGroup'), 'Microsoft.Network/virtualNetworks', variables('vnetName'))]",
+        "subnet1Id1": "[concat(variables('vnetId'), '/subnets/', parameters('SubnetManagement'))]",
+        "subnet2Id1": "[concat(variables('vnetId'), '/subnets/', parameters('SubnetDataIn'))]",
+        "subnet3Id1": "[concat(variables('vnetId'), '/subnets/', parameters('SubnetDataOut'))]",
+        "privateIPAllocationMethod": "Dynamic",
+        "publicIPAddressId_vthunder1_mgmt": "[resourceId(parameters('ResourceGroup'), 'Microsoft.Network/publicIPAddresses', parameters('Public IP Name VM1'))]",
+        "publicIPAddressId_vthunder2_mgmt": "[resourceId(parameters('ResourceGroup'), 'Microsoft.Network/publicIPAddresses', parameters('Public IP Name VM2'))]",
+        "publicIPAddressId_vthunder3_mgmt": "[resourceId(parameters('ResourceGroup'), 'Microsoft.Network/publicIPAddresses', parameters('Public IP Name VM3'))]",
+        "SecpublicIPAddressId_vthunder1_mgmt": "[resourceId(parameters('ResourceGroup'), 'Microsoft.Network/publicIPAddresses', parameters('Secondary Public IP Name VM1'))]",
+        "SecpublicIPAddressId_vthunder2_mgmt": "[resourceId(parameters('ResourceGroup'), 'Microsoft.Network/publicIPAddresses', parameters('Secondary Public IP Name VM2'))]",
+        "SecpublicIPAddressId_vthunder3_mgmt": "[resourceId(parameters('ResourceGroup'), 'Microsoft.Network/publicIPAddresses', parameters('Secondary Public IP Name VM3'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGManagement'))]"
+            ],
+            "location": "[variables('location')]",
+            "name": "[variables('nic1Namevm1')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "PublicIpAddress": {
+                                "Id": "[variables('publicIPAddressId_vthunder1_mgmt')]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnet1Id1')]"
+                            }
+                        }
+                    }
+                ],
+                "enableIPForwarding": true,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGManagement'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGDataIn'))]"
+            ],
+            "location": "[variables('location')]",
+            "name": "[variables('nic2Namevm1')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "primary_ipconfig2",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('subnet2Id1')]"
+                            },
+                            "primary": true
+                        }
+                    },
+                    {
+                        "name": "secondary_ipconfig2",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "PublicIpAddress": {
+                                "Id": "[variables('SecpublicIPAddressId_vthunder1_mgmt')]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnet2Id1')]"
+                            },
+                            "primary": false
+                        }
+                    }
+                ],
+                "enableIPForwarding": true,
+                "networkSecurityGroup": {
+                            "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGDataIn'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGDataOut'))]"
+            ],
+            "location": "[variables('location')]",
+            "name": "[variables('nic3Namevm1')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig3",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('subnet3Id1')]"
+                            }
+                        }
+                    }
+                ],
+                "enableIPForwarding": true,
+                "networkSecurityGroup": {
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGDataOut'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGManagement'))]"
+            ],
+            "location": "[variables('location')]",
+            "name": "[variables('nic1Namevm2')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "PublicIpAddress": {
+                                "Id": "[variables('publicIPAddressId_vthunder2_mgmt')]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnet1Id1')]"
+                            }
+                        }
+                    }
+                ],
+                "enableIPForwarding": true,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGManagement'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGDataIn'))]"
+            ],
+            "location": "[variables('location')]",
+            "name": "[variables('nic2Namevm2')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "primary_ipconfig2",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('subnet2Id1')]"
+                            },
+                            "primary": true
+                        }
+                    },
+                    {
+                        "name": "secondary_ipconfig2",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "PublicIpAddress": {
+                                "Id": "[variables('SecpublicIPAddressId_vthunder2_mgmt')]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnet2Id1')]"
+                            },
+                            "primary": false
+                        }
+                    }
+                ],
+                "enableIPForwarding": true,
+                "networkSecurityGroup": {
+                            "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGDataIn'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGDataOut'))]"
+            ],
+            "location": "[variables('location')]",
+            "name": "[variables('nic3Namevm2')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig3",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('subnet3Id1')]"
+                            }
+                        }
+                    }
+                ],
+                "enableIPForwarding": true,
+                "networkSecurityGroup": {
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGDataOut'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGManagement'))]"
+            ],
+            "location": "[variables('location')]",
+            "name": "[variables('nic1Namevm3')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "PublicIpAddress": {
+                                "Id": "[variables('publicIPAddressId_vthunder3_mgmt')]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnet1Id1')]"
+                            }
+                        }
+                    }
+                ],
+                "enableIPForwarding": true,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGManagement'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGDataIn'))]"
+            ],
+            "location": "[variables('location')]",
+            "name": "[variables('nic2Namevm3')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "primary_ipconfig2",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('subnet2Id1')]"
+                            },
+                            "primary": true
+                        }
+                    },
+                    {
+                        "name": "secondary_ipconfig2",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "PublicIpAddress": {
+                                "Id": "[variables('SecpublicIPAddressId_vthunder3_mgmt')]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnet2Id1')]"
+                            },
+                            "primary": false
+                        }
+                    }
+                ],
+                "enableIPForwarding": true,
+                "networkSecurityGroup": {
+                            "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGDataIn'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGDataOut'))]"
+            ],
+            "location": "[variables('location')]",
+            "name": "[variables('nic3Namevm3')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig3",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('subnet3Id1')]"
+                            }
+                        }
+                    }
+                ],
+                "enableIPForwarding": true,
+                "networkSecurityGroup": {
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('NSGDataOut'))]"
+                }
+            }
+        },
+        {
+         
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2015-06-15",
+            "name": "[variables('NSGManagement')]",
+            "location": "[variables('location')]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "Port_22",
+                        "properties": {
+                            "description": "ssh-rule",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "22",
+                            "sourceAddressPrefix": "0.0.0.0/0",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1000,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "ntp",
+                        "properties": {
+                            "description": "ntp-rule",
+                            "protocol": "Udp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "123",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1050,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "https",
+                        "properties": {
+                            "description": "https-rule",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "443",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1010,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "http",
+                        "properties": {
+                            "description": "http-rule",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "80",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1020,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "gslb",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "4149",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1030,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2015-06-15",
+            "name": "[variables('NSGDataIn')]",
+            "location": "[variables('location')]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "https",
+                        "properties": {
+                            "description": "https-rule",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "443",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1010,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "http",
+                        "properties": {
+                            "description": "http-rule",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "80",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1020,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "gslb",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "4149",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1030,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "dns",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "53",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1040,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ]
+            }
+    	},
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2015-06-15",
+            "name": "[variables('NSGDataOut')]",
+            "location": "[variables('location')]",
+            "properties": {
+                "securityRules": [
+                ]
+            }
+    	},
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2016-04-30-preview",
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('Virtual Machine1 Name')]",
+            "plan": {
+                "name": "[parameters('Image')]",
+                "product": "[parameters('Product')]",
+                "publisher": "[parameters('Publisher')]"
+            },
+            "scale": null,
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('Size')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[parameters('Publisher')]",
+                        "offer": "[parameters('Product')]",
+                        "sku": "[parameters('Image')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(parameters('Virtual Machine1 Name'),'_OsDisk')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": null
+                        },
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('Virtual Machine1 Name')]",
+                    "adminUsername": "[variables('Username')]",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false
+                    },
+                    "adminPassword": "[variables('Password')]",
+                    "secrets": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nic1Namevm1'))]",
+                            "properties": {
+                                "primary": true
+                            }
+                        },
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nic2Namevm1'))]",
+                            "properties": {
+                                "primary": false
+                            }
+                        },
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nic3Namevm1'))]",
+                            "properties": {
+                                "primary": false
+                            }
+                        }
+                    ]
+                }       
+              },
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', variables('nic1Namevm1'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('nic2Namevm1'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('nic3Namevm1'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2016-04-30-preview",
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('Virtual Machine2 Name')]",
+            "plan": {
+                "name": "[parameters('Image')]",
+                "product": "[parameters('Product')]",
+                "publisher": "[parameters('Publisher')]"
+            },
+            "scale": null,
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('Size')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[parameters('Publisher')]",
+                        "offer": "[parameters('Product')]",
+                        "sku": "[parameters('Image')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(parameters('Virtual Machine2 Name'),'_OsDisk')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": null
+                        },
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('Virtual Machine2 Name')]",
+                    "adminUsername": "[variables('Username')]",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false
+                    },
+                    "adminPassword": "[variables('Password')]",
+                    "secrets": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nic1Namevm2')))]",
+                            "properties": {
+                                "primary": true
+                            }
+                        },
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nic2Namevm2')))]",
+                            "properties": {
+                                "primary": false
+                            }
+                        },
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nic3Namevm2')))]",
+                            "properties": {
+                                "primary": false
+                            }
+                        }
+                    ]
+                }       
+              },
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', concat(variables('nic1Namevm2')))]",
+                "[concat('Microsoft.Network/networkInterfaces/', concat(variables('nic2Namevm2')))]",
+                "[concat('Microsoft.Network/networkInterfaces/', concat(variables('nic3Namevm2')))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2016-04-30-preview",
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('Virtual Machine3 Name')]",
+            "plan": {
+                "name": "[parameters('Image')]",
+                "product": "[parameters('Product')]",
+                "publisher": "[parameters('Publisher')]"
+            },
+            "scale": null,
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('Size')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[parameters('Publisher')]",
+                        "offer": "[parameters('Product')]",
+                        "sku": "[parameters('Image')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(parameters('Virtual Machine3 Name'),'_OsDisk')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": null
+                        },
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('Virtual Machine3 Name')]",
+                    "adminUsername": "[variables('Username')]",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false
+                    },
+                    "adminPassword": "[variables('Password')]",
+                    "secrets": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nic1Namevm3')))]",
+                            "properties": {
+                                "primary": true
+                            }
+                        },
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nic2Namevm3')))]",
+                            "properties": {
+                                "primary": false
+                            }
+                        },
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nic3Namevm3')))]",
+                            "properties": {
+                                "primary": false
+                            }
+                        }
+                    ]
+                }       
+              },
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', concat(variables('nic1Namevm3')))]",
+                "[concat('Microsoft.Network/networkInterfaces/', concat(variables('nic2Namevm3')))]",
+                "[concat('Microsoft.Network/networkInterfaces/', concat(variables('nic3Namevm3')))]"
+            ]
+        }
+    ]
+}
+

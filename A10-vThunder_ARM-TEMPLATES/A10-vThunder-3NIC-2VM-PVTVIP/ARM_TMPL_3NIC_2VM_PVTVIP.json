@@ -1,0 +1,512 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "Virtual Machine1 Name": {
+            "type": "string",
+            "defaultValue": "vth-inst1",
+            "metadata": {
+                "description": "Choose the virtual machine name for vThunder. ARM template will create a new VM with the provided name. For eg vth-inst1. Users can login with the default vThunder provided user and password. For more information please refer https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell"
+            }
+        },
+        "Virtual Machine1 Zone": {
+            "type": "string",
+            "defaultValue": "1",
+            "metadata": {
+                "description": "Specify an availability zone in which to deploy your VM1. If you choose to do so, public IP (if you have one) should be present in the same availability zone as your virtual machine 1."
+            }
+        },
+        "Virtual Machine2 Name": {
+            "type": "string",
+            "defaultValue": "vth-inst2",
+            "metadata": {
+                "description": "Choose the virtual machine name for vThunder. ARM template will create a new VM with the provided name. For eg vth-inst2. Users can login with the default vThunder provided user and password. For more information please refer https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell"
+            }
+        },
+        "Virtual Machine2 Zone": {
+            "type": "string",
+            "defaultValue": "1",
+            "metadata": {
+                "description": "Specify an availability zone in which to deploy your VM2. If you choose to do so, public IP (if you have one) should be present in the same availability zone as your virtual machine 2."
+            }
+        },
+        "Size": {
+            "defaultValue": "Standard_D8s_v3",
+            "metadata": {
+                "description": "Choose from available instance/compute type supported for vThunder. The default instance type is Standard_D8s_v3 which contains 8 vCPU and 32 GiB memory. vThunder requires a minimum of 4 vCPU and 32 GiB memory, For more information about different instance types please refer to https://azure.microsoft.com/en-in/pricing/details/virtual-machines/series/"
+            },
+            "type": "string"
+        },
+        "Image":{
+            "type":"string",
+            "defaultValue": "a10-vthunder-adc-601-byol",
+            "metadata": {
+                "description":"Choose the A10 vThunder image that is right for you and your customers. A10 Thunder ADC for Advanced Load Balancing - BYOL is set as a default Image ID. Find more types of thunder images available with different capacities. Go to Azure Portal -> Marketplace -> Search for 'vThunder' -> Select Image -> Usage Information + Support -> Plan ID is the image ID. For more Thunder documentation, please refer to https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell"
+                }
+        },
+        "Publisher":{
+            "type":"string",
+            "defaultValue": "a10networks",
+            "metadata": {
+                "description":"Choose the A10 vThunder publisher that is right for you and your customers. A10 Thunder ADC for Advanced Load Balancing - BYOL is set as a default Publisher ID. Find more types of thunder images available with different capacities. Go to Azure Portal -> Marketplace -> Search for 'vThunder' -> Select Image -> Usage Information + Support -> Publisher ID. For more Thunder documentation, please refer to https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell."
+            }
+        },
+        "Product":{
+            "type":"string",
+            "defaultValue": "a10-vthunder-adc-521",
+            "metadata": {
+                "description":"Choose the A10 vThunder product that is right for you and your customers. A10 Thunder ADC for Advanced Load Balancing - BYOL is set as a default Product ID. Find more types of thunder images available with different capacities. Go to Azure Portal -> Marketplace -> Search for 'vThunder' -> Select Image -> Usage Information + Support -> Product ID. For more Thunder documentation, please refer to https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell."
+            }
+        },
+        "ResourceGroup": {
+            "type": "string",
+            "defaultValue": "vth-rg1",
+            "metadata": {
+                "description": "Choose the resource group name where virtual network, security group and public IP address are already created. This ARM template will not create a new virtual network, security group and public IP address. For eg vth-rg1"
+            }
+        },
+        "Virtual Network": {
+            "type": "string",
+            "defaultValue": "vth-vnet",
+            "metadata": {
+                "description": "Choose an existing virtual network name for virtual machines. This ARM template will not create a new virtual network. For eg vth-vnet."
+            }
+        },
+        "SubnetManagement": {
+            "type": "string",
+            "defaultValue": "subnet-mgmt",
+            "metadata": {
+                "description": "Choose an existing subnet name that is available within a selected virtual network for management traffic inward to vThunder. This ARM template will not create a new subnet. For eg subnet-mgmt."
+            }
+        },
+        "SubnetDataIn": {
+            "type": "string",
+            "defaultValue": "subnet-data-in",
+            "metadata": {
+                "description": "Choose an existing subnet name that is available within a selected virtual network for data inward traffic to vThunder. This ARM template will not create a new subnet. For eg subnet-data-in."
+            }
+        },
+        "SubnetDataOut": {
+            "type": "string",
+            "defaultValue": "subnet-data-out",
+            "metadata": {
+                "description": "Choose an existing subnet name that is available within a selected virtual network for data outward traffic to vThunder. This ARM template will not create a new subnet. For eg subnet-data-out."
+            }
+        },
+        "NIC Management VM1": {
+            "type": "string",
+            "defaultValue": "vth-inst1-mgmt-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for management traffic. This ARM template will create a new network interface card for a virtual machine 1. For eg vth-inst1-mgmt-nic."
+            }
+        },
+        "NIC DataIn VM1": {
+            "type": "string",
+            "defaultValue": "vth-inst1-datain-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for datain traffic. This ARM template will create a new network interface card for a virtual machine 1. For eg vth-inst1-datain-nic"
+            }
+        },
+        "NIC DataOut VM1": {
+            "type": "string",
+            "defaultValue": "vth-inst1-dataout-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for dataout traffic. This ARM template will create a new network interface card for a virtual machine 1. For eg vth-inst1-dataout-nic"
+            }
+        },
+        "Public IP Name VM1": {
+            "type": "string",
+            "defaultValue": "vth-inst1-mgmt-ip",
+            "metadata": {
+                "description": "Choose an existing public IP name for management traffic. This ARM template will not create a new public IP address for a virtual machine 1. For eg vth-inst1-mgmt-ip."
+            }
+        },
+        "Network Security Group VM1": {
+            "type": "string",
+            "defaultValue": "vth-inst1-nsg",
+            "metadata": {
+                "description": "Choose an existing network security group name for all the network interface card. This ARM template will not create a new network security group for a virtual machine 1. For eg vth-inst1-nsg."
+            }
+        },
+        "NIC Management VM2": {
+            "type": "string",
+            "defaultValue": "vth-inst2-mgmt-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for management traffic. This ARM template will create a new network interface card for virtual machine 2. For eg vth-inst2-mgmt-nic"
+            }
+        },
+        "NIC DataIn VM2": {
+            "type": "string",
+            "defaultValue": "vth-inst2-datain-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for datain traffic. This ARM template will create a new network interface card for virtual machine 2. For eg vth-inst2-datain-nic"
+            }
+        },
+        "NIC DataOut VM2": {
+            "type": "string",
+            "defaultValue": "vth-inst2-dataout-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for dataout traffic. This ARM template will create a new network interface card for virtual machine 2. For eg vth-inst2-dataout-nic"
+            }
+        },
+        "Public IP Name VM2": {
+            "type": "string",
+            "defaultValue": "vth-inst2-mgmt-ip",
+            "metadata": {
+                "description": "Choose an existing public IP name for management traffic. This ARM template will not create a new public IP address for virtual machine 2. For eg vth-inst1-mgmt-ip."
+            }
+        },
+        "Network Security Group VM2": {
+            "type": "string",
+            "defaultValue": "vth-inst2-nsg",
+            "metadata": {
+                "description": "Choose an existing network security group name for all the network interface card. This ARM template will not create a new network security group for virtual machine 2. For eg vth-inst2-nsg."
+            }
+        },
+        "Enable Accelerated Networking": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Select true to enable accelerated networking to enable low latency and high throughput on the network interface. Choose the VM instance size that is compatible with accelerated networking. For more information on accelerated networking please refer to https://learn.microsoft.com/en-us/azure/virtual-network/create-vm-accelerated-networking-cli?tabs=windows. For more information please refer to Thunder documentation https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell"
+            }
+        },
+        "Enable IP Forwarding": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Select true to enabling IP forwarding to allows the virtual machine to forward network traffic between networks, greatly improving its networking performance. This high-performance path bypasses the host from the datapath, reducing latency, jitter, and CPU utilization, for use with the most demanding network workloads on supported VM types. For more information please refer https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-network-interface?tabs=azure-portal#enable-or-disable-ip-forwarding-for-a-network-interface . For more information please refer to Thunder documentation https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell"
+            }
+        }
+    },
+    "variables": {
+        "apiVersion": "2015-06-15",
+        "location": "[resourceGroup().location]",
+        "storageAccountType": "Standard_GRS",
+        "imagePublisher": "a10networks",
+        "imageOffer": "a10-vthunder-adc-520-for-microsoft-azure",
+        "Username" : "vth-user",
+        "Password": "vth-Password",
+        "vnetName": "[parameters('Virtual Network')]",
+        "vnetId": "[resourceId(parameters('ResourceGroup'), 'Microsoft.Network/virtualNetworks', variables('vnetName'))]",
+        "subnet1Id": "[concat(variables('vnetId'), '/subnets/', parameters('SubnetManagement'))]",
+        "subnet2Id": "[concat(variables('vnetId'), '/subnets/', parameters('SubnetDataIn'))]",
+        "subnet3Id": "[concat(variables('vnetId'), '/subnets/', parameters('SubnetDataOut'))]",
+        "publicIPAddressType": "Dynamic",
+        "publicIPAddressId_vthunder1_mgmt": "[resourceId(parameters('ResourceGroup'), 'Microsoft.Network/publicIPAddresses', parameters('Public IP Name VM1'))]",
+        "publicIPAddressId_vthunder2_mgmt": "[resourceId(parameters('ResourceGroup'), 'Microsoft.Network/publicIPAddresses', parameters('Public IP Name VM2'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('NIC Management VM1')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1_vthunder1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "PublicIpAddress": {
+                                "Id": "[variables('publicIPAddressId_vthunder1_mgmt')]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnet1Id')]"
+                            }
+                        }
+                    }
+
+                ],
+                 "networkSecurityGroup": {
+                                "id": "[resourceId(parameters('ResourceGroup'), 'Microsoft.Network/networkSecurityGroups', parameters('Network Security Group VM1'))]"
+                            }
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-06-01",
+            "dependsOn": [],
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('NIC DataIn VM1')]",
+            "properties": {
+                "enableAcceleratedNetworking": "[parameters('Enable Accelerated Networking')]",
+                "enableIPForwarding": "[parameters('Enable IP Forwarding')]",
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig2_vthunder1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "primary": true,
+                            "subnet": {
+                                "id": "[variables('subnet2Id')]"
+                            }
+                        }
+                    },
+                     {
+                        "name": "vip",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('subnet2Id')]"
+                            }
+                        }
+
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-06-01",
+            "dependsOn": [],
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('NIC DataOut VM1')]",
+            "properties": {
+                "enableAcceleratedNetworking": "[parameters('Enable Accelerated Networking')]",
+                "enableIPForwarding": "[parameters('Enable IP Forwarding')]",
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig3_vthunder1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "primary": true,
+                            "subnet": {
+                                "id": "[variables('subnet3Id')]"
+                            }
+                        }
+                    },
+                     {
+                        "name": "fip",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('subnet3Id')]"
+                            }
+                            }
+                    }
+
+                ]
+            }
+        },
+
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('NIC Management VM2')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1_vthunder2",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "PublicIpAddress": {
+                                "Id": "[variables('publicIPAddressId_vthunder2_mgmt')]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnet1Id')]"
+                            }
+                        }
+                    }
+                ],
+                "networkSecurityGroup": {
+                                "id": "[resourceId(parameters('ResourceGroup'), 'Microsoft.Network/networkSecurityGroups', parameters('Network Security Group VM2'))]"
+                            }
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-06-01",
+            "dependsOn": [],
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('NIC DataIn VM2')]",
+            "properties": {
+                "enableAcceleratedNetworking": "[parameters('Enable Accelerated Networking')]",
+                "enableIPForwarding": "[parameters('Enable IP Forwarding')]",
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig2_vthunder2",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('subnet2Id')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-06-01",
+            "dependsOn": [],
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('NIC DataOut VM2')]",
+            "properties": {
+                "enableAcceleratedNetworking": "[parameters('Enable Accelerated Networking')]",
+                "enableIPForwarding": "[parameters('Enable IP Forwarding')]",
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig3_vthunder2",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('subnet3Id')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2016-04-30-preview",
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('Virtual Machine1 Name')]",
+            "plan": {
+                "name": "[parameters('Image')]",
+                "product": "[parameters('Product')]",
+                "publisher": "[parameters('Publisher')]"
+                },
+            "zones": [
+                "[parameters('Virtual Machine1 Zone')]"
+            ],
+            "scale": null,
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('Size')]"
+                    },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[parameters('Publisher')]",
+                        "offer": "[parameters('Product')]",
+                        "sku": "[parameters('Image')]",
+                        "version": "latest"
+                        },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(parameters('Virtual Machine1 Name'),'_OsDisk')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": null
+                            },
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('Virtual Machine1 Name')]",
+                    "adminUsername": "[variables('Username')]",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false
+                    },
+                    "adminPassword": "[variables('Password')]",
+                    "secrets": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('NIC Management VM1'))]",
+                            "properties": {
+                                "primary": true
+                            }
+                        },
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('NIC DataIn VM1'))]",
+                            "properties": {
+                                "primary": false
+                            }
+                        },
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('NIC DataOut VM1'))]",
+                            "properties": {
+                                "primary": false
+                            }
+                        }
+                    ]
+                }     
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', parameters('NIC Management VM1'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', parameters('NIC DataIn VM1'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', parameters('NIC DataOut VM1'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2016-04-30-preview",
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('Virtual Machine2 Name')]",
+            "plan": {
+                "name": "[parameters('Image')]",
+                "product": "[parameters('Product')]",
+                "publisher": "[parameters('Publisher')]"
+            },
+            "zones": [
+                "[parameters('Virtual Machine2 Zone')]"
+            ],
+            "scale": null,
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('Size')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[parameters('Publisher')]",
+                        "offer": "[parameters('Product')]",
+                        "sku": "[parameters('Image')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(parameters('Virtual Machine2 Name'),'_OsDisk')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": null
+                        },
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('Virtual Machine2 Name')]",
+                    "adminUsername": "[variables('Username')]",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false
+                    },
+                    "adminPassword": "[variables('Password')]",
+                    "secrets": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('NIC Management VM2'))]",
+                            "properties": {
+                                "primary": true
+                            }
+                        },
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('NIC DataIn VM2'))]",
+                            "properties": {
+                                "primary": false
+                            }
+                        },
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('NIC DataOut VM2'))]",
+                            "properties": {
+                                "primary": false
+                            }
+                        }
+                    ]
+                }      
+      		},
+            "dependsOn": [
+                  "[concat('Microsoft.Network/networkInterfaces/', parameters('NIC Management VM2'))]",
+                  "[concat('Microsoft.Network/networkInterfaces/', parameters('NIC DataIn VM2'))]",
+                  "[concat('Microsoft.Network/networkInterfaces/', parameters('NIC DataOut VM2'))]"
+                ]
+		}
+    ]
+}

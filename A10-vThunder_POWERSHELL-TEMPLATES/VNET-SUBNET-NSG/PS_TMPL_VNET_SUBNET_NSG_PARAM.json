@@ -1,0 +1,38 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "Virtual_Network_CIDR": {
+            "value": [
+                "10.0.0.0/16"
+            ]
+        },
+        "Virtual_Network": {
+            "value": "vth-vnet"
+        }, 
+        "SubnetManagement": {
+            "value": "subnet-mgmt"
+        },
+        "Subnet_Mgmt_CIDR": {
+            "value": "10.0.1.0/24"
+        },
+        "SubnetDataIn": {
+            "value": "subnet-data-in"
+        },
+        "Subnet_DataIn_CIDR": {
+            "value": "10.0.2.0/24"
+        },
+        "SubnetDataOut": {
+            "value": "subnet-data-out"
+        },
+        "Subnet_DataOut_CIDR": {
+            "value": "10.0.3.0/24"
+        },
+        "Network_Security_Group_VM1": {
+            "value": "vth-inst1-nsg"
+        },
+        "Network_Security_Group_VM2": {
+            "value": "vth-inst2-nsg"
+        }
+    }
+}

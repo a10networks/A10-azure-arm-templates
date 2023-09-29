@@ -1,0 +1,323 @@
+{
+    "parameters": {
+        "masterConfigDetails":{
+            "controllerMngmtPublicIp":"Public IP of Management Interface of Region1 Controller",
+            "controllerPassword":"vThunder’s Login password of Region1 Controller",
+            "controllerSecPrivateIpData1":"Secondary Private IP of DataSubnet1 of Region1 Controller",
+            "site1MngmtPublicIp":"Public IP of Management Interface of Region1 Site1",
+            "site1Password":"vThunder’s Login password of Region1 Site1 vThunder",
+            "site2MngmtPublicIp":"Public IP of Management Interface of Region1 Site2",
+            "site2Password":"vThunder’s Login password of Region1 Site2 vThunder",
+            "site1SecPrivateIpData1":"Secondary Private IP of DataSubnet1 of Region1 Site1 vThunder",
+            "site1SecPublicIpData1":"Secondary Public IP of DataSubnet1 of Region1 Site1 vThunder",
+            "site2SecPrivateIpData1":"Secondary Private IP of DataSubnet1 of Region1 Site2 vThunder",
+            "site2SecPublicIpData1":"Secondary Public IP of DataSubnet1 of Region1 Site2 vThunder",
+            "server1PrivateIp":"Private IPv4 address of server1 of Region1",
+            "server2PrivateIp":"Private IPv4 address of server2 of Region1"
+        },
+        "memberConfigDetails":{
+            "controllerMngmtPublicIp":"Public IP of Management Interface of Region2 Controller",
+            "controllerPassword":"vThunder’s Login password of Region2 Controller",
+            "controllerSecPrivateIpData1":"Secondary Private IP of DataSubnet1 of Region2 Controller",
+            "site1MngmtPublicIp":"Public IP of Management Interface of Region2 Site1",
+            "site1Password":"vThunder’s Login password of Region2 Site1 vThunder",
+            "site2MngmtPublicIp":"Public IP of Management Interface of Region2 Site2",
+            "site2Password":"vThunder’s Login password of Region2 Site2 vThunder",
+            "site1SecPrivateIpData1":"Secondary Private IP of DataSubnet1 of Region2 Site1 vThunder",
+            "site1SecPublicIpData1":"Secondary Public IP of DataSubnet1 of Region2 Site1 vThunder",
+            "site2SecPrivateIpData1":"Secondary Private IP of DataSubnet1 of Region2 Site2 vThunder",
+            "site2SecPublicIpData1":"Secondary Public IP of DataSubnet1 of Region2 Site2 vThunder",
+            "server1PrivateIp":"Private IPv4 address of server1 of Region2",
+            "server2PrivateIp":"Private IPv4 address of server2 of Region2"
+
+        },
+        "slbServerPortList1": {
+            "value": [
+                {
+                    "port-number": 80,
+                    "protocol": "tcp",
+                    "health-check-disable":1
+                }
+            ]
+        },
+        "slbServerPortList2": {
+            "value": [
+                {
+                    "port-number": 80,
+                    "protocol": "tcp",
+                    "health-check-disable":1
+                }
+            ]
+        },
+        "slbServerPortList3": {
+            "value": [
+                {
+                    "port-number": 80,
+                    "protocol": "tcp",
+                    "health-check-disable":1
+                }
+            ]
+        },
+        "slbServerPortList4": {
+            "value": [
+                {
+                    "port-number": 80,
+                    "protocol": "tcp",
+                    "health-check-disable":1
+                }
+            ]
+        },
+        "serviceGroupList1": {
+            "value": [
+                {
+                    "name":"sg",
+                    "protocol":"tcp",
+                    "health-check-disable":0,
+                    "member-list": [
+                        {
+                            "port":80
+                        }
+                    ]
+                }
+            ]
+        },
+        "serviceGroupList2": {
+            "value": [
+                {
+                    "name":"sg",
+                    "protocol":"tcp",
+                    "health-check-disable":0,
+                    "member-list": [
+                        {
+                            "port":80
+                        }
+                    ]
+                }
+            ]
+        },
+        "serviceGroupList3": {
+            "value": [
+                {
+                    "name":"sg",
+                    "protocol":"tcp",
+                    "health-check-disable":0,
+                    "member-list": [
+                        {
+                            "port":80
+                        }
+                    ]
+                }
+            ]
+        },
+        "serviceGroupList4": {
+            "value": [
+                {
+                    "name":"sg",
+                    "protocol":"tcp",
+                    "health-check-disable":0,
+                    "member-list": [
+                        {
+                            "port":80
+                        }
+                    ]
+                }
+            ]
+        },
+        "virtualServerList1": {
+            "virtual-server-name": "vs1",
+            "metadata": {
+                "description": "virtual server is using VIP from ethernet 1 secondary subnet"
+            },
+            "value": [
+                {
+                    "port-number":80,
+                    "protocol":"tcp",
+                    "auto":1,
+                    "service-group":"sg"
+                }
+            ]
+        },
+        "virtualServerList2": {
+            "virtual-server-name": "vs1",
+            "metadata": {
+                "description": "virtual server is using VIP from ethernet 1 secondary subnet"
+            },
+            "value": [
+                {
+                    "port-number":80,
+                    "protocol":"tcp",
+                    "auto":1,
+                    "service-group":"sg"
+                }
+            ]
+        },
+        "virtualServerList3": {
+            "virtual-server-name": "vs1",
+            "metadata": {
+                "description": "virtual server is using VIP from ethernet 1 secondary subnet"
+            },
+            "value": [
+                {
+                    "port-number":80,
+                    "protocol":"tcp",
+                    "auto":1,
+                    "service-group":"sg"
+                }
+            ]
+        },
+        "virtualServerList4": {
+            "virtual-server-name": "vs1",
+            "metadata": {
+                "description": "virtual server is using VIP from ethernet 1 secondary subnet"
+            },
+            "value": [
+                {
+                    "port-number":80,
+                    "protocol":"tcp",
+                    "auto":1,
+                    "service-group":"sg"
+                }
+            ]
+        },
+        "serviceipList1": {
+            "node-name": "vs1",
+            "value": [
+                {
+                    "port-num": 80,
+                    "port-proto": "tcp"
+                }
+            ]
+        },
+        "serviceipList2": {
+            "node-name": "vs2",
+            "value": [
+                {
+                    "port-num": 80,
+                    "port-proto": "tcp"
+                }
+            ]
+        },
+        "serviceipList3": {
+            "node-name": "vs3",
+            "value": [
+                {
+                    "port-num": 80,
+                    "port-proto": "tcp"
+                }
+            ]
+        },
+        "serviceipList4": {
+            "node-name": "vs4",
+            "value": [
+                {
+                    "port-num": 80,
+                    "port-proto": "tcp"
+                }
+            ]
+        },
+        "siteList1": {
+            "site-name": "eastus_1",
+            "vip-name": "vs1",
+            "device-name": "slb1",
+            "geo-location": "North America,United States"
+        },
+        "siteList2": {
+            "site-name": "eastus_2",
+            "vip-name": "vs2",
+            "device-name": "slb2",
+            "geo-location": "North America,United States"
+        },
+        "siteList3": {
+            "site-name": "eastus2_1",
+            "vip-name": "vs3",
+            "device-name": "slb3",
+            "geo-location": "North America.United States.California.San Jose"
+        },
+        "siteList4": {
+            "site-name": "eastus2_2",
+            "vip-name": "vs4",
+            "device-name": "slb4",
+            "geo-location": "North America.United States.California.San Jose"
+        },
+        "geolocation": {
+            "geo-location-iana": "0",
+            "geo-location-geolite2-city": "1",
+            "geolite2-city-include-ipv6": "0",
+            "geo-location-geolite2-country": "0"
+        },
+        "dnsPolicy": {
+            "policy-name": "a10",
+            "type": "health-check, geographic"
+        },
+        "gslbserverList1": {
+            "virtual-server-name": "gslb-server",
+            "metadata": {
+                "description": "gslb virtual server is using VIP from ethernet 1 secondary subnet"
+            },
+            "value": [
+                {
+                    "port-number":53,
+                    "protocol":"udp",
+                    "gslb-enable": 1
+                }
+            ]
+        },
+        "gslbserverList2": {
+            "virtual-server-name": "gslb-server",
+            "metadata": {
+                "description": "gslb virtual server is using VIP from ethernet 1 secondary subnet"
+            },
+            "value": [
+                {
+                    "port-number":53,
+                    "protocol":"udp",
+                    "gslb-enable": 1
+                }
+            ]
+        },
+        "gslbprotocolStatus": {
+            "status-interval": 1
+        },
+        "gslbcontrollerGroup1": {
+            "name": "default",
+            "priority": 255
+        },
+        "gslbcontrollerGroup2": {
+            "name": "default",
+            "priority": 100
+        },
+        "gslbzone": {
+            "service-port": 80,
+            "service-name": "www",
+            "name" : "gslb.a10.com"
+        },
+        "rib-list_region1": [
+        {
+          "ip-dest-addr": "0.0.0.0",
+          "ip-mask": "/0",
+          "ip-nexthop-ipv4": [
+            {
+              "ip-next-hop": "10.1.20.1"
+            },
+            {
+              "ip-next-hop": "10.1.20.1"
+            }
+          ]
+        }
+      ],
+        "rib-list_region2": [
+        {
+          "ip-dest-addr": "0.0.0.0",
+          "ip-mask": "/0",
+          "ip-nexthop-ipv4": [
+            {
+              "ip-next-hop": "10.1.20.1"
+            },
+            {
+              "ip-next-hop": "10.1.20.1"
+            }
+          ]
+        }
+      ]
+    }
+}

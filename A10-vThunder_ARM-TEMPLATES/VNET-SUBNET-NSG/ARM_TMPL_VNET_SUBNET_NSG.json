@@ -1,0 +1,350 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "Virtual Network": {
+            "type": "string",
+            "defaultValue": "vth-vnet",
+            "metadata": {
+                "description": "Specify the virtual network name for virtual machines. This ARM template will create a new virtual network. For eg vth-vnet."
+            }
+        },
+        "Virtual Network CIDR": {
+            "type": "array",
+            "defaultValue": ["10.0.0.0/16"],
+            "metadata": {
+                "description": "Specify the CIDR range for the virtual network, For eg 10.0.0.0/16"
+            }
+        },
+        "SubnetManagement": {
+            "type": "string",
+            "defaultValue": "subnet-mgmt",
+            "metadata": {
+                "description": "Specify the subnet name for management traffic inward to vThunder. This ARM template will create a new subnet. For eg subnet-mgmt."
+            }
+        },
+        "Subnet Mgmt CIDR": {
+            "type": "string",
+            "defaultValue": "10.0.1.0/24",
+            "metadata": {
+                "description": "Specify the CIDR range for management subnet, For eg. 10.0.1.0/24"
+            }
+        },
+        "SubnetDataIn": {	
+            "type": "string",
+            "defaultValue": "subnet-data-in",
+            "metadata": {	
+                "description": "Specify the subnet name for datain traffic inward to vThunder. This ARM template will create a new subnet. For eg subnet-data-in."
+            }
+        },
+        "Subnet DataIn CIDR": {
+            "type": "string",
+            "defaultValue": "10.0.2.0/24",
+            "metadata": {
+                "description": "Specify the CIDR range for data-in subnet, For eg. 10.0.2.0/24"
+            }
+        },
+        "SubnetDataOut": {	
+            "type": "string",
+            "defaultValue": "subnet-data-out",
+            "metadata": {	
+                "description": "Specify the subnet name for dataout traffic outward from vThunder. This ARM template will create a new subnet. For eg subnet-data-out."
+            }	
+        },
+        "Subnet DataOut CIDR": {
+            "type": "string",
+            "defaultValue": "10.0.3.0/24",
+            "metadata": {
+                "description": "Specify the CIDR range for data-out subnet. For eg. 10.0.3.0/24"
+            }
+        },
+        "Network Security Group VM1": {
+            "type": "string",
+            "defaultValue": "vth-inst1-nsg",
+            "metadata": {
+                "description": "Specify the network security group name for all the network interface card. This ARM template will create a new network security group for virtual machine 1. For eg vth-inst1-nsg."
+            }
+        },
+        "Network Security Group VM2": {
+            "type": "string",
+            "defaultValue": "vth-inst2-nsg",
+            "metadata": {
+                "description": "Specify the network security group name for all the network interface card. This ARM template will create a new network security group for virtual machine 2. For eg vth-inst2-nsg."
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2015-06-15",
+            "name": "[parameters('Network Security Group VM1')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+               "securityRules": [
+                  {
+                     "name": "ssh",
+                     "properties": {
+                         "description": "ssh-rule",
+                         "protocol": "Tcp",
+                         "sourcePortRange": "*",
+                         "destinationPortRange": "22",
+                         "sourceAddressPrefix": "0.0.0.0/0",
+                         "destinationAddressPrefix": "*",
+                         "access": "Allow",
+                         "priority": 1000,
+                         "direction": "Inbound",
+                         "sourcePortRanges": [],
+                         "destinationPortRanges": [],
+                         "sourceAddressPrefixes": [],
+                         "destinationAddressPrefixes": []
+                     }
+                 },
+                 {
+                  "name": "https",
+                  "properties": {
+                      "description": "https-rule",
+                      "protocol": "Tcp",
+                      "sourcePortRange": "*",
+                      "destinationPortRange": "443",
+                      "sourceAddressPrefix": "*",
+                      "destinationAddressPrefix": "*",
+                      "access": "Allow",
+                      "priority": 1010,
+                      "direction": "Inbound",
+                      "sourcePortRanges": [],
+                      "destinationPortRanges": [],
+                      "sourceAddressPrefixes": [],
+                      "destinationAddressPrefixes": []
+                  }
+              },
+              {
+                  "name": "http",
+                  "properties": {
+                      "description": "http-rule",
+                      "protocol": "Tcp",
+                      "sourcePortRange": "*",
+                      "destinationPortRange": "80",
+                      "sourceAddressPrefix": "*",
+                      "destinationAddressPrefix": "*",
+                      "access": "Allow",
+                      "priority": 1020,
+                      "direction": "Inbound",
+                      "sourcePortRanges": [],
+                      "destinationPortRanges": [],
+                      "sourceAddressPrefixes": [],
+                      "destinationAddressPrefixes": []
+                  }
+              },
+              {
+                  "name": "snmp",
+                  "properties": {
+                      "description": "snmp-rule",
+                      "protocol": "Udp",
+                      "sourcePortRange": "*",
+                      "destinationPortRange": "161",
+                      "sourceAddressPrefix": "*",
+                      "destinationAddressPrefix": "*",
+                      "access": "Allow",
+                      "priority": 1030,
+                      "direction": "Inbound",
+                      "sourcePortRanges": [],
+                      "destinationPortRanges": [],
+                      "sourceAddressPrefixes": [],
+                      "destinationAddressPrefixes": []
+                  }
+              },
+              {
+                "name": "ping",
+                "properties": {
+                    "description": "ping-rule",
+                    "protocol": "Icmp",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "*",
+                    "sourceAddressPrefix": "*",
+                    "destinationAddressPrefix": "*",
+                    "access": "Allow",
+                    "priority": 1040,
+                    "direction": "Inbound",
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [],
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefixes": []
+                }
+            },
+            {
+                "name": "ntp",
+                "properties": {
+                    "description": "ntp-rule",
+                    "protocol": "Udp",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "123",
+                    "sourceAddressPrefix": "*",
+                    "destinationAddressPrefix": "*",
+                    "access": "Allow",
+                    "priority": 1050,
+                    "direction": "Inbound",
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [],
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefixes": []
+                }
+            }
+
+               ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2015-06-15",
+            "name": "[parameters('Network Security Group VM2')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+               "securityRules": [
+                  {
+                     "name": "ssh",
+                     "properties": {
+                         "description": "ssh-rule",
+                         "protocol": "Tcp",
+                         "sourcePortRange": "*",
+                         "destinationPortRange": "22",
+                         "sourceAddressPrefix": "0.0.0.0/0",
+                         "destinationAddressPrefix": "*",
+                         "access": "Allow",
+                         "priority": 1000,
+                         "direction": "Inbound",
+                         "sourcePortRanges": [],
+                         "destinationPortRanges": [],
+                         "sourceAddressPrefixes": [],
+                         "destinationAddressPrefixes": []
+                     }
+                 },
+                 {
+                  "name": "https",
+                  "properties": {
+                      "description": "https-rule",
+                      "protocol": "Tcp",
+                      "sourcePortRange": "*",
+                      "destinationPortRange": "443",
+                      "sourceAddressPrefix": "*",
+                      "destinationAddressPrefix": "*",
+                      "access": "Allow",
+                      "priority": 1010,
+                      "direction": "Inbound",
+                      "sourcePortRanges": [],
+                      "destinationPortRanges": [],
+                      "sourceAddressPrefixes": [],
+                      "destinationAddressPrefixes": []
+                  }
+              },
+              {
+                  "name": "http",
+                  "properties": {
+                      "description": "http-rule",
+                      "protocol": "Tcp",
+                      "sourcePortRange": "*",
+                      "destinationPortRange": "80",
+                      "sourceAddressPrefix": "*",
+                      "destinationAddressPrefix": "*",
+                      "access": "Allow",
+                      "priority": 1020,
+                      "direction": "Inbound",
+                      "sourcePortRanges": [],
+                      "destinationPortRanges": [],
+                      "sourceAddressPrefixes": [],
+                      "destinationAddressPrefixes": []
+                  }
+              },
+              {
+                  "name": "snmp",
+                  "properties": {
+                      "description": "snmp-rule",
+                      "protocol": "Udp",
+                      "sourcePortRange": "*",
+                      "destinationPortRange": "161",
+                      "sourceAddressPrefix": "*",
+                      "destinationAddressPrefix": "*",
+                      "access": "Allow",
+                      "priority": 1030,
+                      "direction": "Inbound",
+                      "sourcePortRanges": [],
+                      "destinationPortRanges": [],
+                      "sourceAddressPrefixes": [],
+                      "destinationAddressPrefixes": []
+                  }
+              },
+              {
+                "name": "ping",
+                "properties": {
+                    "description": "ping-rule",
+                    "protocol": "Icmp",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "*",
+                    "sourceAddressPrefix": "*",
+                    "destinationAddressPrefix": "*",
+                    "access": "Allow",
+                    "priority": 1040,
+                    "direction": "Inbound",
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [],
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefixes": []
+                }
+            },
+            {
+                "name": "ntp",
+                "properties": {
+                    "description": "ntp-rule",
+                    "protocol": "Udp",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "123",
+                    "sourceAddressPrefix": "*",
+                    "destinationAddressPrefix": "*",
+                    "access": "Allow",
+                    "priority": 1050,
+                    "direction": "Inbound",
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [],
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefixes": []
+                }
+            }
+
+               ]
+            }
+        },
+        {
+            "name": "[parameters('Virtual Network')]",
+            "type": "Microsoft.Network/VirtualNetworks",
+            "apiVersion": "2021-05-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [],
+            "tags": {},
+            "properties": {
+              "addressSpace": {
+                "addressPrefixes": "[parameters('Virtual Network CIDR')]"
+              },
+              "subnets": [
+                {
+                  "name": "[parameters('SubnetManagement')]",
+                  "properties": {
+                    "addressPrefix": "[parameters('Subnet Mgmt CIDR')]"
+                  }
+                },
+                {
+                  "name": "[parameters('SubnetDataIn')]",
+                  "properties": {
+                    "addressPrefix": "[parameters('Subnet DataIn CIDR')]"
+                  }
+                },
+                {
+                  "name": "[parameters('SubnetDataOut')]",
+                  "properties": {
+                    "addressPrefix": "[parameters('Subnet DataOut CIDR')]"
+                  }
+                }
+              ]
+            }
+          }
+    ]
+}

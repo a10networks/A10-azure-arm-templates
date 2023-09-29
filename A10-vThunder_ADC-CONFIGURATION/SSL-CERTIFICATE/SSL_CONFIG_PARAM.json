@@ -1,0 +1,17 @@
+{
+    "parameters": {
+        "sslConfig": {
+            "requestTimeOut": 40,
+            "path": "<absolute file path of certificate file>",
+            "file": "<certificate file name>",
+            "certificationType": "<certificate file type>"
+          },
+        "vThUsername": "admin",
+        "hostIPAddress": {
+            "vThunderIP": [
+                "<vThunder1 public IP>",
+                "<vThunder2 public IP>"
+            ]
+        }
+    }
+  }

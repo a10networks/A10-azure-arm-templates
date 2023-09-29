@@ -1,0 +1,51 @@
+{
+    "parameters": {
+        "serviceGroupList": {
+          "value": [
+              {
+                "name":"sg443",
+                "protocol":"tcp",
+                "health-check-disable":1
+              },
+              {
+                "name":"sg53",
+                "protocol":"udp",
+                "health-check-disable":1
+              },
+                {
+                "name":"sg80",
+                "protocol":"tcp",
+                "health-check-disable":1
+              }
+            ]
+        },
+        "virtualServerList": {
+          "virtual-server-name": "vip",
+          "ip-address": "10.0.2.5",
+          "metadata": {
+            "description": "virtual server is using VIP from ethernet 1 subnet"
+          },
+          "value": [
+            {
+              "port-number":53,
+              "protocol":"udp",
+              "ha-conn-mirror":1,
+              "auto":1,
+              "service-group":"sg53"
+            },
+            {
+              "port-number":80,
+              "protocol":"http",
+              "auto":1,
+              "service-group":"sg80"
+            },
+            {
+              "port-number":443,
+              "protocol":"https",
+              "auto":1,
+              "service-group":"sg443"
+            }
+          ]
+        }
+    }
+  }  

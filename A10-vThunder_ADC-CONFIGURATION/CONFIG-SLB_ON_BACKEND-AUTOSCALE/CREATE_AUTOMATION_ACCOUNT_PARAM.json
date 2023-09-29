@@ -1,0 +1,34 @@
+{
+  "automationAccountName": "vth-amt-acc",
+  "location": "South Central US",
+  "clientSecret": "9-xxx~jIxxxEVyxxxxHNxxxOwv_xxxxZLxxxTM",
+  "appId": "10724xxx-xxx-xxxx-xxxx-xxxx2c14726d",
+  "tenantId": "91d27xxx-xxxx-xxxx-xxxx-xxxxf81fcb2f",
+  "vmssName": "vth-server-vmss",
+  "mgmtInterface1": "vth-inst1-mgmt-nic",
+  "mgmtInterface2": "vth-inst2-mgmt-nic",
+  "vThunderName1": "vth-inst1",
+  "vThunderName2": "vth-inst2",
+  "resourceGroupName": "vth-rg1",
+  "vnetresourceGroupName" : "<existing virtual network resource group name>",
+  "vThUsername": "admin",
+  "portList":{
+    "value": [
+      {
+        "port-number": 53,
+        "protocol": "udp",
+        "health-check-disable":1
+      },
+      {
+      "port-number": 80,
+      "protocol": "tcp",
+      "health-check-disable":1
+      },
+      {
+      "port-number": 443,
+      "protocol": "tcp",
+      "health-check-disable":1
+      }
+    ]
+  }
+}
