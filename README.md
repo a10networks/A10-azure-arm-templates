@@ -11,20 +11,21 @@ This template contains several configurations of Thunder which can be applied vi
 
 ## Support Matrix
 
-|     ACOS ADC     | [ARM/PS 1.0.0](https://github.com/a10networks/A10-azure-arm-templates/tree/release/v1.0.0) | [ARM/PS 1.1.0](https://github.com/a10networks/A10-azure-arm-templates/tree/release/v1.1.0) | [ARM/PS 1.2.0](https://github.com/a10networks/A10-azure-arm-templates/tree/release/v1.2.0) |
-|:----------------:|:------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------:|
-| `ACOS 6.0.1`     |                                           `No`                                            |                                           `Yes`                                            |                                           `Yes`                                            |
-| `ACOS 6.0.0-p2`  |                                           `No`                                            |                                           `Yes`                                            |                                            `Yes`                                            |
-| `ACOS 6.0.0-p1`  |                                           `No`                                            |                                            `Yes`                                            |                                           `Yes`                                            |
-| `ACOS 5.2.1-p6`  |                                           `Yes`                                            |                                           `Yes`                                            |                                           `Yes`                                            |
-| `ACOS 5.2.1-p5`  |                                           `Yes`                                            |                                           `Yes`                                            |                                           `Yes`                                            |
-| `ACOS 5.2.1-p4`  |                                           `Yes`                                            |                                            `Yes`                                            |                                           `Yes`                                            |
-| `ACOS 5.2.1-p3`  |                                           `Yes`                                            |                                            `Yes`                                            |                                           `Yes`                                            |
+|    ACOS ADC     | [ARM/PS 1.0.0](https://github.com/a10networks/A10-azure-arm-templates/tree/release/v1.0.0) | [ARM/PS 1.1.0](https://github.com/a10networks/A10-azure-arm-templates/tree/release/v1.1.0) | [ARM/PS 1.2.0](https://github.com/a10networks/A10-azure-arm-templates/tree/release/v1.2.0) |
+|:---------------:|:------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------:|
+|  `ACOS 6.0.2`   |                                            `No`                                            |                                           `No`                                                 |                                      `Yes`                                             |
+|  `ACOS 6.0.1`   |                                            `No`                                            |                                           `Yes`                                            |                                           `Yes`                                            |
+| `ACOS 6.0.0-p2` |                                            `No`                                            |                                           `Yes`                                            |                                           `Yes`                                            |
+| `ACOS 6.0.0-p1` |                                            `No`                                            |                                            `Yes`                                            |                                          `Yes`                                            |
+| `ACOS 5.2.1-p6` |                                           `Yes`                                            |                                           `Yes`                                            |                                           `Yes`                                            |
+| `ACOS 5.2.1-p5` |                                           `Yes`                                            |                                           `Yes`                                            |                                           `Yes`                                            |
+| `ACOS 5.2.1-p4` |                                           `Yes`                                            |                                            `Yes`                                            |                                          `Yes`                                            |
+| `ACOS 5.2.1-p3` |                                           `Yes`                                            |                                            `Yes`                                            |                                          `Yes`                                            |
 
 
 ## Release Logs
 
-## ARM/PowerShell-1.2.0
+### ARM/PowerShell-1.2.0
 
 - Added support for ACOS 5.2.1-P8, ACOS 6.0.1 and ACOS 6.0.2.
 - Separated the deployment and configuration parameters to ensure a clear distinction between the resources needed for initial deployment and those required for subsequent configuration and customization.
@@ -52,7 +53,7 @@ This template contains several configurations of Thunder which can be applied vi
   7. SSL-CERTIFICATE
 
 
-## ARM/PowerShell-1.1.0
+### ARM/PowerShell-1.1.0
 
 - Added support for ACOS 5.2.1-P7, ACOS 6.0.0-P1 and ACOS 6.0.0-P2
 - Added Thunder password change capability.
@@ -74,7 +75,7 @@ This template contains several configurations of Thunder which can be applied vi
   5. High Availability
 
 
-## ARM/PowerShell-1.0.0
+### ARM/PowerShell-1.0.0
 
 - Thunder infra setup with different features and combinations.
 - Added support for ACOS 5.2.1-P6
