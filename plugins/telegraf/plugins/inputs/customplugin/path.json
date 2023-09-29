@@ -1,5 +1,0 @@
-{
-    "Python_Exe_Path" : "/usr/bin/python3",
-    "Python_File_Path": "/usr/local/go/src/telegraf/plugins/inputs/customplugin/get_metrics.py"
-
-}

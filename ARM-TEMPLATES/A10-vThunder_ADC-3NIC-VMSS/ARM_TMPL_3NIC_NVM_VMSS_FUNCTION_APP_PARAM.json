@@ -1,7 +1,0 @@
-{
-    "functionAppName": "vth-auto-func-app",
-    "applicationInsightsName": "vth-vmss-app-insights",
-    "subscriptionId": "07d3xxxx-xxxx-xxxx-xxxx-xxxxx6812a3e",
-    "filePath": "AZURE_FUNCTIONS\\GetMetrics.zip",
-    "vThUserName": "admin"
-}

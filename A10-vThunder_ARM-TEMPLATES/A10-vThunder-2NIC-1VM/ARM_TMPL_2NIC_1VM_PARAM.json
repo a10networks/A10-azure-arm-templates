@@ -1,0 +1,51 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "Virtual Machine Name": {
+      "value": "vth-inst1"
+    },
+    "Size": {
+      "value": "Standard_D8s_v3"
+    },
+    "Image": {
+      "value":"a10-vthunder-adc-601-byol"
+    },
+    "Publisher": {
+      "value": "a10networks"
+    },
+    "Product": {
+      "value": "a10-vthunder-adc-521"
+    },
+    "ResourceGroup": {
+      "value": "<existing VN NSG ResourceGroupName>"
+    },
+    "Virtual Network": {
+      "value": "<existing virtual network name>"
+    },
+    "SubnetManagement": {
+      "value": "<existing subnet-mgmt name>"
+    },
+    "SubnetData": {
+      "value": "<existing subnet-data name>"
+    },
+    "NIC Management": {
+      "value": "vth-inst1-mgmt-nic"
+    },
+    "NIC Data": {
+      "value": "vth-inst1-data-nic"
+    },
+    "Public IP Name": {
+      "value": "<existing Public IP Name>"
+    },
+    "Network Security Group": {
+      "value": "<existing Network Security Group>"
+    },
+    "Enable Accelerated Networking": {
+      "value": false
+    },
+    "Enable IP Forwarding": {
+      "value": false
+    }
+  }
+}

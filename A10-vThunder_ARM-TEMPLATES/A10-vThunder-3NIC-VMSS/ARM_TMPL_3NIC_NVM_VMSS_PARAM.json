@@ -1,0 +1,72 @@
+{
+   "$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+   "contentVersion":"1.0.0.0",
+   "parameters":{
+      "VMSS Name":{
+         "value":"vth-vmss"
+      },
+      "VMSS Size":{
+         "value":"Standard_D8s_v3"
+      },
+      "Instance Count":{
+         "value":1
+      },
+      "Image":{
+         "value":"a10-vthunder-adc-601-byol"
+      },
+      "Publisher":{
+         "value":"a10networks"
+      },
+      "Product":{
+         "value":"a10-vthunder-adc-521"
+      },
+      "NIC Management":{
+         "value":"vth-inst-mgmt-nic"
+      },
+      "Subnet Mgmt CIDR":{
+         "value":"10.0.1.0/24"
+      },
+      "Management Public IP Name":{
+         "value":"vth-inst-mgmt-ip"
+      },
+      "NIC DataIn":{
+         "value":"vth-inst-datain-nic"
+      },
+      "Subnet DataIn CIDR":{
+         "value":"10.0.2.0/24"
+      },
+      "NIC DataOut":{
+         "value":"vth-inst-dataout-nic"
+      },
+      "Subnet DataOut CIDR":{
+         "value":"10.0.3.0/24"
+      },
+      "Network Security Group":{
+         "value": "vth-vmss-nsg"
+      },
+      "Storage Account Name": {
+         "value": "vthunderstorage"
+      },
+      "LB Name": {
+         "value": "vth-lb"
+      },
+      "LB Public IP Name": {
+         "value": "vth-lb-ip"
+      },
+      "Automation Account Name": {
+         "value": "vth-amt-acc"
+      },
+      "Log Analytics Workspace Name": {
+         "value": "vth-vmss-log-workspace"
+      },
+      "Application Insights Name": {
+         "value": "vth-vmss-app-insights"
+      },
+      "Enable Accelerated Networking": {
+         "value": false
+      },
+      "Enable IP Forwarding": {
+         "value": false
+      }
+   }
+}

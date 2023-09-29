@@ -1,0 +1,87 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUsername": {
+      "value": "vth-user"
+    },
+    "adminPassword": {
+      "value": "vth-Password"
+    },
+    "virtual_network": {
+      "value": "<existing virtual network name>"
+    },
+    "vmName_vthunder1": {
+      "value": "vth-inst1"
+    },
+    "thunder1Zone": {
+       "value": 1
+    },
+    "vmName_vthunder2": {
+      "value": "vth-inst2"
+    },
+      "thunder2Zone": {
+        "value": 1
+    },
+    "vmSize": {
+      "value": "Standard_D8s_v3"
+    },
+    "vThunderImage": {
+      "value":"a10-vthunder-adc-601-byol"
+    },
+    "publisherName": {
+      "value": "a10networks"
+    },
+    "productName": {
+      "value": "a10-vthunder-adc-521"
+    },
+    "nic1Name_vm1": {
+      "value": "vth-inst1-mgmt-nic"
+    },
+    "nic2Name_vm1": {
+      "value": "vth-inst1-datain-nic"
+    },
+    "nic3Name_vm1": {
+      "value": "vth-inst1-dataout-nic"
+    },
+    "nic1Name_vm2": {
+      "value": "vth-inst2-mgmt-nic"
+    },
+    "nic2Name_vm2": {
+      "value": "vth-inst2-datain-nic"
+    },
+    "nic3Name_vm2": {
+      "value": "vth-inst2-dataout-nic"
+    },
+    "subnet1Name": {
+      "value": "<existing subnet mgmt name>"
+    },
+    "subnet2Name": {
+      "value": "<existing subnet datain name>"
+    },
+    "subnet3Name": {
+      "value": "<existing subnet dataout name>"
+    },
+    "networkSecurityGroupName_vm1": {
+      "value": "<existing vm1 network security group>"
+    },
+    "networkSecurityGroupName_vm2": {
+      "value": "<existing vm2 network security group>"
+    },
+    "PublicIPName_vm1": {
+      "value":"<existing vm1 publicipaddress name>"
+    },
+    "PublicIPName_vm2": {
+      "value":"<existing vm2 publicipaddress name>"
+    },
+    "enableAcceleratedNetworking": {
+      "value": false
+    },
+    "enableIPForwarding": {
+    "value": false
+    },
+    "ResourceGroupName": {
+      "value": "<existing vnet nsg publicIP resourcegroup>"
+    }
+  }
+}  

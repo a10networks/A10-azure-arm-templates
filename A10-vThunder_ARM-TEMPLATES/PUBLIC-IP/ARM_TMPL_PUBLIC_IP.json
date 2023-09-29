@@ -1,0 +1,92 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "DNS VM1": {
+            "type": "string",
+            "defaultValue": "vth-inst1",
+            "metadata": {
+                "description":"Specify an unique DNS Name prefix for vThunder virtual machine 1. This ARM template will create a DNS Name prefix for virtual machine 1. For eg vth-inst1."
+            }
+        },
+        "Public IP Name VM1": {
+            "type": "string",
+            "defaultValue": "vth-inst1-mgmt-ip",
+            "metadata": {
+                "description": "Specify an unique public IP name for management traffic. This ARM template will create a new public IP address for virtual machine 1. For eg vth-inst1-mgmt-ip."
+            }
+        },
+        "DNS VM2": {
+            "type": "string",
+            "defaultValue": "vth-inst2",
+            "metadata": {
+                "description": "Specify an unique DNS Name prefix for vThunder virtual machine 2.This ARM template will create a DNS Name prefix for virtual machine 2. For eg vth-inst2."
+            }
+        },
+        "Public IP Name VM2": {
+            "type": "string",
+            "defaultValue": "vth-inst2-mgmt-ip",
+            "metadata": {
+                "description": "Specify an unique public IP name for management traffic. This ARM template will create a new public IP address for virtual machine 2. For eg vth-inst2-mgmt-ip."
+            }
+        },
+        "Public IP Name VIP": {
+            "type": "string",
+            "defaultValue": "vth-vip",
+            "metadata": {
+                "description": "Specify an unique public IP name for VIP. This ARM template will create a new public IP address for VIP. For eg vip."
+            }
+         }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2020-08-01",
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('Public IP Name VM1')]",
+            "properties": {
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('DNS VM1')]"
+                },
+                "idleTimeoutInMinutes": 30,
+                "publicIPAllocationMethod": "Static"
+            },
+            "sku": {
+                "name": "Standard"
+            },
+            "zones": ["1", "2", "3"]
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2020-08-01",
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('Public IP Name VM2')]",
+            "properties": {
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('DNS VM2')]"
+                },
+                "idleTimeoutInMinutes": 30,
+                "publicIPAllocationMethod": "Static"
+            },
+            "sku": {
+                "name": "Standard"
+            },
+            "zones": ["1", "2", "3"]
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2020-08-01",
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('Public IP Name VIP')]",
+            "properties": {
+                "idleTimeoutInMinutes": 30,
+                "publicIPAllocationMethod": "Static"
+            },
+            "sku": {
+                "name": "Standard"
+            },
+            "zones": ["1", "2", "3"]
+        }
+    ]
+}

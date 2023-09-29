@@ -1,0 +1,21 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": { 
+        "DNS VM1": {
+            "value": "vth-inst1"
+        },
+        "Public IP Name VM1": {
+            "value": "vth-inst1-mgmt-ip"
+        },
+        "DNS VM2": {
+            "value": "vth-inst2"
+        },
+        "Public IP Name VM2": {
+            "value": "vth-inst2-mgmt-ip"
+        },
+        "Public IP Name VIP": {
+            "value": "vth-vip"
+        }
+    }
+}

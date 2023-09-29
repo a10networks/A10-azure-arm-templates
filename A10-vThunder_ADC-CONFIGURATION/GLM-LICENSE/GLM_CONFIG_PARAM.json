@@ -1,0 +1,19 @@
+{
+    "parameters": 
+    {
+      "entitlementToken": {
+        "value": "<license entitlementToken>"
+      },
+      "vThUsername": {
+        "value": "admin"
+      },
+      "dnsPrimary": {
+        "value": "8.8.8.8"
+      },
+      "hostIPAddress": {
+        "vThunderIP": [
+            "<vThunder1-PublicIP>",
+            "<vThunder2-PublicIP>"]
+        }
+    }
+}

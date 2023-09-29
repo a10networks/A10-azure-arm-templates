@@ -1,0 +1,78 @@
+{
+  "$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion":"1.0.0.0",
+  "parameters":{
+     "adminUsername":{
+        "value":"vth-user"
+     },
+     "adminPassword":{
+        "value":"vth-Password"
+     },
+     "vmssName":{
+        "value":"vth-vmss"
+     },
+     "vmssSku":{
+        "value":"Standard_D8s_v3"
+     },
+     "instanceCount":{
+        "value":1
+     },
+     "vThunderImage":{
+        "value":"a10-vthunder-adc-601-byol"
+     },
+     "publisherName":{
+        "value":"a10networks"
+     },
+     "productName":{
+        "value":"a10-vthunder-adc-521"
+     },
+     "mgmtIntfPrivatePrefix":{
+        "value":"10.0.1.0/24"
+     },
+     "eth1PrivatePrefix":{
+        "value":"10.0.2.0/24"
+     },
+     "eth2PrivatePrefix":{
+        "value":"10.0.3.0/24"
+     },
+     "nic1Name":{
+        "value":"vth-inst-mgmt-nic"
+     },
+     "nic2Name":{
+        "value":"vth-inst-datain-nic"
+     },
+     "nic3Name":{
+        "value":"vth-inst-dataout-nic"
+     },
+     "nic1PublicIPName":{
+        "value":"vth-inst-mgmt-ip"
+     },
+     "networkSecurityGroupName":{
+        "value":"vth-vmss-nsg"
+     },
+     "storageAccountName": {
+        "value": "vthunderstorage"
+     },
+     "lbName": {
+        "value": "vth-lb"
+     },
+     "lbPubIPName": {
+        "value": "vth-lb-ip"
+     },
+     "automationAccountName":{
+      "value": "vth-amt-acc"
+     },
+     "logAnalyticsWorkspaceName": {
+      "value": "vth-vmss-log-workspace"
+     },
+     "appInsightsName": {
+      "value": "vth-vmss-app-insights"
+     },
+     "enableAcceleratedNetworking": {
+      "value": false
+     },
+     "enableIPForwarding": {
+     "value": false
+     }
+   }
+}

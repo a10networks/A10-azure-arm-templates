@@ -1,0 +1,238 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "Virtual Machine Name": {
+            "type": "string",
+            "defaultValue": "vth-inst1",
+            "metadata": {
+                "description": "Choose the virtual machine name for vThunder. ARM template will create a new VM with the provided name. For eg vth-inst1. Users can login with the default vThunder provided user and password. For more information please refer https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell"
+            }
+        },
+        "Size": {
+            "type": "string",
+            "defaultValue": "Standard_D8s_v3",
+            "metadata": {
+                "description": "Choose from available instance/compute type supported for vThunder. The default instance type is Standard_D8s_v3 which contains 8 vCPU and 32 GiB memory. vThunder requires a minimum of 4 vCPU and 32 GiB memory, For more information about different instance types please refer to https://azure.microsoft.com/en-in/pricing/details/virtual-machines/series/"
+            }    
+        },
+        "Image": {
+            "type": "string",
+            "defaultValue": "a10-vthunder-adc-601-byol",
+            "metadata": {
+                "description": "Choose the A10 vThunder image that is right for you and your customers. A10 Thunder ADC for Advanced Load Balancing - BYOL is set as a default Image ID. Find more types of thunder images available with different capacities. Go to Azure Portal -> Marketplace -> Search for 'vThunder' -> Select Image -> Usage Information + Support -> Plan ID is the image ID. For more Thunder documentation, please refer to https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell"
+                }
+        },
+        "Publisher": {
+            "type": "string",
+            "defaultValue": "a10networks",
+            "metadata": {
+                "description": "Choose the A10 vThunder publisher that is right for you and your customers. A10 Thunder ADC for Advanced Load Balancing - BYOL is set as a default Publisher ID. Find more types of thunder images available with different capacities. Go to Azure Portal -> Marketplace -> Search for 'vThunder' -> Select Image -> Usage Information + Support -> Publisher ID. For more Thunder documentation, please refer to https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell."
+            }
+        },
+        "Product": {
+            "type": "string",
+            "defaultValue": "a10-vthunder-adc-521",
+            "metadata": {
+                "description": "Choose the A10 vThunder product that is right for you and your customers. A10 Thunder ADC for Advanced Load Balancing - BYOL is set as a default Product ID. Find more types of thunder images available with different capacities. Go to Azure Portal -> Marketplace -> Search for 'vThunder' -> Select Image -> Usage Information + Support -> Product ID. For more Thunder documentation, please refer to https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell."
+            }
+        },
+        "ResourceGroup": {
+            "type": "string",
+            "defaultValue": "vth-rg1",
+            "metadata": {
+                "description": "Choose the resource group name where virtual network, security group and public IP address are already created. This ARM template will not create a new virtual network, security group and public IP address. For eg vth-rg1"
+            }
+        },
+        "Virtual Network": {
+            "type": "string",
+            "defaultValue": "vth-vnet",
+            "metadata": {
+                "description": "Choose an existing virtual network name for virtual machines. This ARM template will not create a new virtual network. For eg vth-vnet."
+            }
+        },
+        "SubnetManagement": {
+            "type": "string",
+            "defaultValue": "subnet-mgmt",
+            "metadata": {
+                "description": "Choose an existing subnet name that is available within a selected virtual network for management traffic inward to vThunder. This ARM template will not create a new subnet. For eg subnet-mgmt."
+            }
+        },
+        "SubnetData": {
+            "type": "string",
+            "defaultValue": "subnet-data",
+            "metadata": {
+                "description": "Choose an existing subnet name that is available within a selected virtual network for data traffic inward and outward to vThunder. This ARM template will not create a new subnet. For eg subnet-data."
+            }
+        },
+        "NIC Management": {
+            "type": "string",
+            "defaultValue": "vth-inst1-mgmt-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for management traffic. This ARM template will create a new network interface card for a virtual machine. For eg vth-inst1-mgmt-nic."
+            }
+        },
+        "NIC Data": {
+            "type": "string",
+            "defaultValue": "vth-inst1-data-nic",
+            "metadata": {
+                "description": "Choose a unique network interface card for data traffic. This ARM template will create a new network interface card for a virtual machine. For eg vth-inst1-data-nic"
+            }
+        },
+        "Public IP Name": {
+            "type": "string",
+            "defaultValue": "vth-inst1-mgmt-ip",
+            "metadata": {
+                "description": "Choose an existing public IP name for management traffic. This ARM template will not create a new public IP address for a virtual machine. For eg vth-inst1-mgmt-ip."
+            }
+        },
+        "Network Security Group": {
+            "type": "string",
+            "defaultValue": "vth-inst1-nsg",
+            "metadata": {
+                "description": "Choose an existing network security group name for all the network interface card. This ARM template will not create a new network security group for a virtual machine. For eg vth-inst1-nsg."
+            }
+        },
+        "Enable Accelerated Networking": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Select true to enable accelerated networking to enable low latency and high throughput on the network interface. Choose the VM instance size that is compatible with accelerated networking. For more information on accelerated networking please refer to https://learn.microsoft.com/en-us/azure/virtual-network/create-vm-accelerated-networking-cli?tabs=windows . For more information please refer to vThunder documentation https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell"
+            }
+        },
+        "Enable IP Forwarding": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Select true to enabling IP forwarding to allow the virtual machine to forward network traffic between networks, greatly improving its networking performance. This high-performance path bypasses the host from the datapath, reducing latency, jitter, and CPU utilization, for use with the most demanding network workloads on supported VM types. For more information please refer to https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-network-interface?tabs=azure-portal#enable-or-disable-ip-forwarding-for-a-network-interface. For more information please refer to vThunder documentation https://documentation.a10networks.com -> Infrastructure as Code (IAC) -> ARM Powershell"
+            }
+        }
+    },
+    "variables": {
+        "apiVersion": "2015-06-15",
+        "location": "[resourceGroup().location]",
+        "storageAccountType": "Standard_GRS",
+        "imagePublisher": "[parameters('Publisher')]",
+        "Username" : "vth-user",
+        "Password": "vth-Password",
+        "vnetName": "[parameters('Virtual Network')]",
+        "vnetId": "[resourceId(parameters('ResourceGroup'), 'Microsoft.Network/virtualNetworks', variables('vnetName'))]",
+        "subnet1Id": "[concat(variables('vnetId'), '/subnets/', parameters('SubnetManagement'))]",
+        "subnet2Id": "[concat(variables('vnetId'), '/subnets/', parameters('SubnetData'))]",
+        "publicIPAddressType": "Dynamic",
+        "publicIPAddressId": "[resourceId(parameters('ResourceGroup'), 'Microsoft.Network/publicIPAddresses', parameters('Public IP Name'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('NIC Management')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "PublicIpAddress": {
+                             "Id": "[variables('publicIPAddressId')]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnet1Id')]"
+                            }
+                        }
+                    }
+                ],
+                "networkSecurityGroup": {
+                    "id": "[resourceId(parameters('ResourceGroup'),'Microsoft.Network/networkSecurityGroups', parameters('Network Security Group'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-06-01",
+            "dependsOn": [],
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('NIC Data')]",
+            "properties": {
+                "enableAcceleratedNetworking": "[parameters('Enable Accelerated Networking')]",
+                "enableIPForwarding": "[parameters('Enable IP Forwarding')]",
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig2",
+                        "properties": {
+                            "subnet": {
+                                "id": "[variables('subnet2Id')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2016-04-30-preview",
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('Virtual Machine Name')]",
+            "plan": {
+                "name": "[parameters('Image')]",
+                "product": "[parameters('Product')]",
+                "publisher": "[parameters('Publisher')]"
+            },
+            "scale": null,
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('Size')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[parameters('Publisher')]",
+                        "offer": "[parameters('Product')]",
+                        "sku": "[parameters('Image')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(parameters('Virtual Machine Name'),'_OsDisk')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": null
+                        },
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('Virtual Machine Name')]",
+                    "adminUsername": "[variables('Username')]",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false
+                    },
+                    "adminPassword": "[variables('Password')]",
+                    "secrets": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('NIC Management'))]",
+                            "properties": {
+                                "primary": true
+                            }
+                        },
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('NIC Data'))]",
+                            "properties": {
+                                "primary": false
+                            }
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', parameters('NIC Management'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', parameters('NIC Data'))]"
+            ]
+        }
+    ]
+}

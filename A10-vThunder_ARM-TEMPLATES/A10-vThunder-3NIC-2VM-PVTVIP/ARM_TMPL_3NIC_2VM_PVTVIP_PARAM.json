@@ -1,0 +1,81 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "Virtual Machine1 Name": {
+      "value": "vth-inst1"
+    },
+    "Virtual Machine1 Zone": {
+      "value": "1"
+    },
+    "Virtual Machine2 Name": {
+      "value": "vth-inst2"
+    },
+    "Virtual Machine2 Zone": {
+      "value": "1"
+    },
+    "Size": {
+      "value": "Standard_D8s_v3"
+    },
+    "Image": {
+      "value":"a10-vthunder-adc-601-byol"
+    },
+    "Publisher": {
+      "value": "a10networks"
+    },
+    "Product": {
+      "value": "a10-vthunder-adc-521"
+    },
+    "ResourceGroup": {
+      "value": "<existing VN NSG ResourceGroupName>"
+    },
+    "Virtual Network": {
+      "value": "<existing Virtual Network Name>"
+    },
+    "SubnetManagement": {
+      "value": "<existing subnet-mgmt name>"
+    },
+    "SubnetDataIn": {
+      "value": "<existing subnet-data-in name>"
+    },
+    "SubnetDataOut": {
+      "value": "<existing subnet-data-out name>"
+    },
+    "NIC Management VM1": {
+      "value": "vth-inst1-mgmt-nic"
+    },
+    "NIC DataIn VM1": {
+      "value": "vth-inst1-datain-nic"
+    },
+    "NIC DataOut VM1": {
+      "value": "vth-inst1-dataout-nic"
+    },
+    "Public IP Name VM1": {
+      "value": "<existing Public IP Name VM1>"
+    },
+    "Network Security Group VM1": {
+      "value": "<existing Network Security Group VM1 Name>"
+    },
+    "NIC Management VM2": {
+      "value": "vth-inst2-mgmt-nic"
+    },
+    "NIC DataIn VM2": {
+      "value": "vth-inst2-datain-nic"
+    },
+    "NIC DataOut VM2": {
+      "value": "vth-inst2-dataout-nic"
+    },
+    "Public IP Name VM2": {
+      "value": "<existing Public IP Name VM2>"
+    },
+    "Network Security Group VM2": {
+      "value": "<existing Network Security Group VM2 Name>"
+    },
+    "Enable Accelerated Networking": {
+      "value": false
+    },
+    "Enable IP Forwarding": {
+    "value": false
+    }
+  }
+}
